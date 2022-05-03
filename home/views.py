@@ -1,6 +1,24 @@
 from django.shortcuts import render
-
-# Create your views here.
+from django.db import connection
+from collections import namedtuple
 
 def index(request):
-    return render(request, 'home/index.html')
+    cursor = connection.cursor()
+    result = []
+    try:
+        cursor.execute("SET SEARCH_PATH TO public")
+        cursor.execute("SELECT name FROM django_migrations") # Just an example
+        result = namedtuplefetchall(cursor)
+    except Exception as e:
+        print(e)
+    finally:
+        cursor.close()
+
+    return render(request, 'home/index.html', {'result': result})
+
+
+def namedtuplefetchall(cursor):
+    "Return all rows from a cursor as a namedtuple"
+    desc = cursor.description
+    nt_result = namedtuple('Result', [col[0] for col in desc])
+    return [nt_result(*row) for row in cursor.fetchall()]
