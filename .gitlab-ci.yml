@@ -27,6 +27,8 @@ stages:
 Deployment:
   image: ruby:2.6
   stage: deploy
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
   before_script:
     - gem install faraday -v 1.10.0
     - gem install dpl
