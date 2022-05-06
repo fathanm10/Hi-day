@@ -14,7 +14,7 @@ def index(request):
     finally:
         cursor.close()
 
-    return render(request, 'home/index.html', {'result': result})
+    return render(request, 'home/index.html', {'title':"Home", 'result': result})
 
 
 def namedtuplefetchall(cursor):
