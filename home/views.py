@@ -6,9 +6,10 @@ def index(request):
     cursor = connection.cursor()
     result = []
     try:
-        cursor.execute("SET SEARCH_PATH TO public")
-        cursor.execute("SELECT name FROM django_migrations") # Just an example
+        cursor.execute("SET SEARCH_PATH TO hi_day")
+        cursor.execute("SELECT email FROM akun") # Just an example
         result = namedtuplefetchall(cursor)
+        print(result)
     except Exception as e:
         print(e)
     finally:
