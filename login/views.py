@@ -1,40 +1,74 @@
-from django.shortcuts import render
-from django.db import connection
-from collections import namedtuple
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import redirect, render
+from django.views.decorators.csrf import csrf_exempt
 
+from hi_day.utils import get_query
+from hi_day.auth import is_authenticated, get_role, get_session_data
+
+
+def index(request):
+    if is_authenticated(request):
+        return redirect("/")
+    return render(request, 'login/index.html', {'title': "Masuk"})
+
+
+@csrf_exempt
 def login(request):
-    cursor = connection.cursor()
-    result = []
-    try:
-        cursor.execute("SET SEARCH_PATH TO hi_day")
-        cursor.execute("SELECT email FROM akun") # Just an example
-        result = namedtuplefetchall(cursor)
-        print(result)
-    except Exception as e:
-        print(e)
-    finally:
-        cursor.close()
+    next = request.GET.get("next")
 
-    return render(request, 'login/login.html', {'title':"Login", 'result': result})
+    if request.method != "POST":
+        if is_authenticated(request):
+            return redirect("/")
+        return render(request, 'login/login.html')
+
+    if is_authenticated(request):
+        email = str(request.session["email"])
+        password = str(request.session["password"])
+    else:
+        email = str(request.POST["email"])
+        password = str(request.POST["password"])
+
+    user = get_query(f'''
+    SELECT email FROM admin WHERE email='{email}' AND password='{password}';
+    ''')
+
+    role = get_role(email, password)
+
+    if role == "":
+        if is_authenticated(request):
+            return redirect("/")
+        return render(request, 'login/login.html')
+    else:
+        request.session["email"] = email
+        request.session["password"] = password
+        request.session["role"] = role
+        request.session.set_expiry(0)
+        request.session.modified = True
+
+        if next != None and next != "None":
+            return redirect(next)
+        else:
+            return redirect("/")
+
+def logout(request):
+    next = request.GET.get("next")
+
+    if not is_authenticated(request):
+        return redirect("/auth/login")
+
+    request.session.flush()
+    request.session.clear_expired()
+
+    if next != None and next != "None":
+        return redirect(next)
+    else:
+        return redirect("/auth/login")
+
 
 def register(request):
-    cursor = connection.cursor()
-    result = []
-    try:
-        cursor.execute("SET SEARCH_PATH TO hi_day")
-        cursor.execute("SELECT email FROM akun") # Just an example
-        result = namedtuplefetchall(cursor)
-        print(result)
-    except Exception as e:
-        print(e)
-    finally:
-        cursor.close()
+    result = get_query('''
+    SELECT * FROM akun;
+    ''')
+    print(result)
 
-    return render(request, 'login/register.html', {'title':"Register", 'result': result})
-
-
-def namedtuplefetchall(cursor):
-    "Return all rows from a cursor as a namedtuple"
-    desc = cursor.description
-    nt_result = namedtuple('Result', [col[0] for col in desc])
-    return [nt_result(*row) for row in cursor.fetchall()]
+    return render(request, 'login/register.html', {'title': "Register", 'result': result})

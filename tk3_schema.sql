@@ -1,6 +1,3 @@
-CREATE SCHEMA IF NOT EXISTS hi_day;
-SET SEARCH_PATH TO hi_day;
-
 CREATE TABLE akun (
 	email VARCHAR(50), 
 	PRIMARY KEY (email)
@@ -235,7 +232,7 @@ CREATE TABLE histori_produksi_makanan (
 	email VARCHAR(50),
 	waktu_awal TIMESTAMP,
 	ID_alat_produksi VARCHAR(5) NOT NULL,
-	ID_produk_makanan VARCHAR(5) UNIQUE NOT NULL,
+	ID_produk_makanan VARCHAR(5) NOT NULL,
 	PRIMARY KEY (email, waktu_awal),
 	FOREIGN KEY (email, waktu_awal) REFERENCES histori_produksi(email, waktu_awal) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (ID_alat_produksi, ID_produk_makanan) REFERENCES produksi(ID_alat_produksi, ID_produk_makanan) ON UPDATE CASCADE ON DELETE CASCADE
