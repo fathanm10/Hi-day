@@ -1,5 +1,16 @@
 # Hi Day
 
+Kelompok: C12
+Kelas: C
+Link Aplikasi: <Insert>
+## Anggota Kelompok:
+| Nama | NPM |
+| ------ | ------ |
+| Kenneth Jonathan | 2006463364 |
+| Fathan Muhammad | 2006486090 |
+| Ignatius Henriyanto Primai Renda | 2006525002 |
+| Muhammad Satrio Haryo Kusumo | 2006597771 |
+
  1. Install env
  
 	    py venv -m env
