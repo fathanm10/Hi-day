@@ -1,6 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
 
 from hi_day.utils import get_query
 from hi_day.auth import is_authenticated, get_role, get_session_data
@@ -19,7 +20,7 @@ def login(request):
     if request.method != "POST":
         if is_authenticated(request):
             return redirect("/")
-        return render(request, 'login/login.html')
+        return render(request, 'login/login.html', {'title': "Login"})
 
     if is_authenticated(request):
         email = str(request.session["email"])
@@ -37,7 +38,8 @@ def login(request):
     if role == "":
         if is_authenticated(request):
             return redirect("/")
-        return render(request, 'login/login.html')
+        messages.error(request, 'Email atau password salah')
+        return render(request, 'login/login.html', {'title': "Login"})
     else:
         request.session["email"] = email
         request.session["password"] = password
@@ -49,6 +51,7 @@ def login(request):
             return redirect(next)
         else:
             return redirect("/")
+
 
 def logout(request):
     next = request.GET.get("next")
@@ -65,10 +68,99 @@ def logout(request):
         return redirect("/auth/login")
 
 
+@csrf_exempt
 def register(request):
-    result = get_query('''
-    SELECT * FROM akun;
-    ''')
-    print(result)
+    next = request.GET.get("next")
 
-    return render(request, 'login/register.html', {'title': "Register", 'result': result})
+    if is_authenticated(request):
+        return redirect("/")
+
+    return render(request, 'login/register.html', {'title': "Register"})
+
+
+@csrf_exempt
+def register_admin(request):
+    next = request.GET.get("next")
+
+    if request.method != "POST":
+        if is_authenticated(request):
+            return redirect("/")
+        return render(request, 'login/register_admin.html', {'title': "Register Admin"})
+
+    body = request.POST
+
+    email = body['email']
+    password = body['password']
+
+    result = get_query(
+        f"""
+        INSERT INTO akun VALUES
+        ('{email}');
+
+        INSERT INTO admin VALUES
+        ('{email}', '{password}');
+        """
+    )
+
+    role = get_role(email, password)
+
+    if role == "":
+        if is_authenticated(request):
+            return redirect("/")
+        messages.error(request, 'Email sudah dipakai')
+        return render(request, 'login/register_admin.html', {'title': "Register Admin"})
+
+    request.session["email"] = email
+    request.session["password"] = password
+    request.session["role"] = "admin"
+    request.session.set_expiry(0)
+    request.session.modified = True
+
+    if next != None and next != "None":
+        return redirect(next)
+    else:
+        return redirect("/")
+
+@csrf_exempt
+def register_user(request):
+    next = request.GET.get("next")
+
+    if request.method != "POST":
+        if is_authenticated(request):
+            return redirect("/")
+        return render(request, 'login/register_user.html', {'title': "Register User"})
+
+    body = request.POST
+
+    email = body['email']
+    password = body['password']
+    farm = body['farm']
+
+    result = get_query(
+        f"""
+        INSERT INTO akun VALUES
+        ('{email}');
+
+        INSERT INTO pengguna VALUES
+        ('{email}', '{password}', '{farm}');
+        """
+    )
+
+    role = get_role(email, password)
+
+    if role == "":
+        if is_authenticated(request):
+            return redirect("/")
+        messages.error(request, 'Email sudah dipakai')
+        return render(request, 'login/register_user.html', {'title': "Register User"})
+
+    request.session["email"] = email
+    request.session["password"] = password
+    request.session["role"] = "user"
+    request.session.set_expiry(0)
+    request.session.modified = True
+
+    if next != None and next != "None":
+        return redirect(next)
+    else:
+        return redirect("/")

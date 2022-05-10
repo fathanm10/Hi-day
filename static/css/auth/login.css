@@ -6,3 +6,7 @@
   padding-right: var(--padding);
   gap: 2rem;
 }
+
+.message {
+  color: red;
+}

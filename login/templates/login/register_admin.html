@@ -2,14 +2,13 @@
 {% load static %}
 
 {% block styles %}
-<link rel="stylesheet" href="{% static 'css/auth/login.css' %}">
+<link rel="stylesheet" href="{% static 'css/auth/register.css' %}">
 <link rel="stylesheet" href="{% static 'css/index.css' %}">
 {% endblock styles %}
 
 {% block body %}
-<h1>Login</h1>
-
-<form method="post" class="login">
+<h1>Register Admin</h1>
+<form method="post" class="regist">
   <div class="">
     <label for="email">Email:</label>
     <input type="email" name="email" id="email">
@@ -25,7 +24,7 @@
     {% endfor %}
   {% endif %}
 
-  <button type="submit">Login</button>
+  <button type="submit">Register</button>
 </form>
-<div>Belum pernah mendaftar? <a href="/auth/register">Daftar disini</a></div>
+<div>Sudah punya akun? <a href="/auth/login">Masuk</a></div>
 {% endblock body %}
