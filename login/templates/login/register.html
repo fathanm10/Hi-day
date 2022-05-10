@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/auth/register.css' %}">
+{% endblock styles %}
+
+{% block body %}
+<h1>Register</h1>
+<div><a href="/auth/register/admin">Daftar sebagai admin</a></div>
+<div><a href="/auth/register/user">Daftar sebagai pengguna</a></div>
+<div>Sudah punya akun? <a href="/auth/login">Masuk</a></div>
+{% endblock body %}

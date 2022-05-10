@@ -1,0 +1,12 @@
+.regist {
+  --padding: 5rem;
+    display: flex;
+    flex-direction: column;
+    padding-left: var(--padding);
+    padding-right: var(--padding);
+    gap: 2rem;
+}
+
+.message {
+  color: red;
+}

@@ -2,9 +2,18 @@
 {% load static %}
 
 {% block styles %}
-<link rel="stylesheet" href="{% static 'css/index.css' %}">
 {% endblock styles %}
 
 {% block body %}
-<h1>Hello World</h1>
+{% if data.role == 'admin' %}
+<h1>Homepage Admin</h1>
+<p>Email: {{data.user.email}}</p>
+{% elif data.role == 'user' %}
+<h1>Homepage Pengguna</h1>
+<p>Email: {{data.user.email}}</p>
+<p>Nama Area Pertanian: {{data.user.farm}}</p>
+<p>XP: {{data.user.xp}}</p>
+<p>Koin: {{data.user.koin}}</p>
+<p>Level: {{data.user.level}}</p>
+{% endif %}
 {% endblock body %}
