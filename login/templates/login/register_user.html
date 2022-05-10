@@ -1,0 +1,32 @@
+{% extends 'base.html' %} 
+
+{% load static %} {% block styles %}
+<link rel="stylesheet" href="{% static 'css/auth/register.css' %}" />
+{% endblock styles %}
+
+{% block body %}
+<h1>Register User</h1>
+<form method="post" class="regist">
+  <div class="">
+    <label for="email">Email:</label>
+    <input type="email" name="email" id="email" />
+  </div>
+  <div class="">
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password" />
+  </div>
+  <div class="">
+    <label for="farm">Nama Area Pertanian:</label>
+    <input type="text" name="farm" id="farm" />
+  </div>
+
+  {% if messages %} {% for message in messages %}
+  <div class="alert alert-danger" role="alert">
+    {{ message }}
+  </div>
+  {% endfor %} {% endif %}
+
+  <button type="submit">Register</button>
+</form>
+<div>Sudah punya akun? <a href="/auth/login">Masuk</a></div>
+{% endblock body %}
