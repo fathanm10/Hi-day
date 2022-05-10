@@ -3,7 +3,6 @@
 
 {% block styles %}
 <link rel="stylesheet" href="{% static 'css/auth/login.css' %}">
-<link rel="stylesheet" href="{% static 'css/index.css' %}">
 {% endblock styles %}
 
 {% block body %}
@@ -21,7 +20,9 @@
 
   {% if messages %}
     {% for message in messages %}
-    <p class="message">{{ message }}</p>
+    <div class="alert alert-danger" role="alert">
+      {{ message }}
+    </div>
     {% endfor %}
   {% endif %}
 

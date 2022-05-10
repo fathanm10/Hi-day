@@ -2,7 +2,6 @@
 
 {% load static %} {% block styles %}
 <link rel="stylesheet" href="{% static 'css/auth/register.css' %}" />
-<link rel="stylesheet" href="{% static 'css/index.css' %}" />
 {% endblock styles %}
 
 {% block body %}
@@ -22,7 +21,9 @@
   </div>
 
   {% if messages %} {% for message in messages %}
-  <p class="message">{{ message }}</p>
+  <div class="alert alert-danger" role="alert">
+    {{ message }}
+  </div>
   {% endfor %} {% endif %}
 
   <button type="submit">Register</button>
