@@ -17,10 +17,14 @@ Link Aplikasi: https://tk-basdat-c12.herokuapp.com/\
     
 2. Activate env using **cmd**
 
-	   cd env
-	   cd Scripts
-	   activate
-  
+		cd env
+		cd Scripts
+		activate
+
 3. Install modules
 
-	   pip install -r requirements.txt
+		pip install -r requirements.txt
+
+4. [Schema](tk3_schema.sql)
+
+5. [Dummy data](https://docs.google.com/spreadsheets/d/1mFp4ZhbJclBesFOSbCHXbzdO-uAfC6U5/edit?usp=sharing&ouid=102987277344060130746&rtpof=true&sd=true)
