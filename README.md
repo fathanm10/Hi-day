@@ -1,8 +1,8 @@
 # Hi Day
 
-Kelompok: C12
-Kelas: C
-Link Aplikasi: <Insert>
+Kelompok: C12\
+Kelas: C\
+Link Aplikasi: https://tk-basdat-c12.herokuapp.com/\
 ## Anggota Kelompok:
 | Nama | NPM |
 | ------ | ------ |
