@@ -2,7 +2,7 @@
 
 Kelompok: C12\
 Kelas: C\
-Link Aplikasi: https://tk-basdat-c12.herokuapp.com/\
+Link Aplikasi: https://tk-basdat-c12.herokuapp.com/
 ## Anggota Kelompok:
 | Nama | NPM |
 | ------ | ------ |
