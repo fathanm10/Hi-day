@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{% endblock styles %}
+
+{% block body %}
+<h1>Transaksi Upgrade Lumbung</h1>
+{% if daftartransaksi %}
+{% for transaksi in daftartransaksi %}
+<div class="d-flex justify-content-between">
+    <p>No: {{ forloop.counter }}</p>
+    {% if data|get_item:'role' == 'admin' %}
+    <p>Email Pengguna: {{ transaksi.email }}</p>
+    {% endif %}
+    <p>Waktu Upgrade: {{ transaksi.waktu }}</p>
+</div>
+{% endfor %}
+{% endif %}
+
+{% if data|get_item:'role' == 'user' %}
+<p>Pengguna only data</p>
+{% elif data|get_item:'role' == 'admin' %}
+<p>All data + kolom email</p>
+{% endif %}
+
+{% endblock body %}
