@@ -25,4 +25,5 @@ urlpatterns = [
     path('auth/', include('login.urls')),
     path('lumbung/', include('lumbung.urls')),
     path('paketkoin/', include('paketkoin.urls')),
+    path('prosesproduksi/', include('prosesproduksi.urls')),
 ]

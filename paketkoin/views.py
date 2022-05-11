@@ -1,5 +1,4 @@
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
 from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
@@ -25,7 +24,7 @@ def index(request):
     print(paketkoin)
 
     return render(request, 'paketkoin/index.html', {
-        'title': "Home",
+        'title': "List Paket Koin",
         'paketkoin':paketkoin,
         'data':data,
     })
