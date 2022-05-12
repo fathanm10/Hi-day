@@ -8,6 +8,26 @@
 {% block body %}
 <h1>List Produk</h1>
 
+{% if messages %}
+    {% for message in messages %}
+    {% if messages.tags == "alert" %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% else %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endif %}
+    {% endfor %}
+  {% endif %}
+  
 <table>
   <tr>
     <th>No.</th>
@@ -32,7 +52,7 @@
     {% if data.role == 'admin' %}
     <td>
       <a href="/produk/update-produk/{{ item.id }}">Update</a>
-      <a href="#">Delete</a>
+      <a href="/produk/delete-produk/{{ item.id }}">Delete</a>
     </td>
     {% endif %}
   </tr>

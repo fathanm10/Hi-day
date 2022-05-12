@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from hi_day.utils import get_query
 from hi_day.auth import is_authenticated, get_role, get_session_data
-from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
 
 
 def list_produk(request):
@@ -41,7 +41,7 @@ def list_produk(request):
             'harga': result[i][1],
             'sifat': result[i][2],
             'jenis': jenis,
-            "id":result[i][6],
+            "id": result[i][6],
         })
 
     data['product'] = product_data
@@ -49,7 +49,6 @@ def list_produk(request):
     return render(request, 'produk/list_produk.html', {'title': "List Produk", 'data': data})
 
 
-@csrf_exempt
 def add_product(request):
     next = request.GET.get("next")
 
@@ -119,7 +118,7 @@ def add_product(request):
     else:
         return redirect("/produk/list-produk")
 
-@csrf_exempt
+
 def update_product(request, pk):
     next = request.GET.get("next")
 
@@ -134,12 +133,11 @@ def update_product(request, pk):
         WHERE ID='{pk}';
     ''')
 
-    print(product_data)
     data['product'] = {
-        'id':product_data[0][0],
-        'nama':product_data[0][1],
-        'harga':product_data[0][2],
-        'sifat':product_data[0][3],
+        'id': product_data[0][0],
+        'nama': product_data[0][1],
+        'harga': product_data[0][2],
+        'sifat': product_data[0][3],
     }
 
     if request.method != "POST":
@@ -162,3 +160,46 @@ def update_product(request, pk):
         return redirect(next)
     else:
         return redirect("/produk/list-produk")
+
+
+def delete_product(request, pk):
+    data = {}
+    data['role'] = get_role(request.session['email'],
+                            request.session['password'])
+    data['user'] = get_session_data(request)
+
+    if not is_authenticated(request):
+        return redirect("/auth/login")
+
+    if data['role'] != 'admin':
+        return redirect("/produk/list-produk")
+
+    product_data = get_query(f'''
+        SELECT DP.ID_produk
+        FROM detail_pesanan AS DP
+        FULL JOIN lumbung_memiliki_produk AS LP
+        ON LP.ID_produk = DP.ID_produk
+        FULL JOIN produk_dibutuhkan_oleh_produk_makanan AS PPMA
+        ON PPMA.ID_produk_makanan = DP.ID_produk
+        FULL JOIN produk_dibutuhkan_oleh_produk_makanan AS PPMB
+        ON PPMB.ID_produk = DP.ID_produk
+        FULL JOIN produksi AS PR
+        ON PR.ID_produk_makanan = DP.ID_produk
+        FULL JOIN HEWAN_MENGHASILKAN_PRODUK_HEWAN AS HPH
+        ON HPH.ID_Produk_Hewan = DP.ID_produk
+        FULL JOIN bibit_tanaman_menghasilkan_hasil_panen AS BTHP
+        ON BTHP.ID_Hasil_Panen = DP.ID_produk
+        WHERE DP.ID_produk='{pk}';
+    ''')
+    # print(product_data)
+
+    if (len(product_data) != 0):
+        messages.error(request, 'Produk tidak bisa dihapus')
+    else:
+        get_query(f'''
+            DELETE FROM produk
+            WHERE ID='{pk}';
+        ''')
+        messages.success(request, 'Produk berhasil dihapus')
+
+    return redirect("/produk/list-produk")

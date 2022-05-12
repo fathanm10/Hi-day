@@ -10,6 +10,7 @@
 <h1>Tambah Produk</h1>
 
 <form method="post">
+  {% csrf_token %}
   <div>
     <label for="jenis">Jenis Produk</label>
     <select name="jenis" id="jenis" required>
