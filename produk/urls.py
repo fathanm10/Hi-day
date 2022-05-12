@@ -5,4 +5,5 @@ app_name = 'produk'
 
 urlpatterns = [
     path('list-produk', views.list_produk, name='list_produk'),
+    path('buat-produk', views.add_product, name='add_produk'),
 ]

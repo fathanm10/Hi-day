@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/produk/add_produk.css' %}">
+{% endblock styles %}
+
+{% block body %}
+{% if data.role == 'admin' %}
+<h1>Tambah Produk</h1>
+
+<form method="post">
+  <div>
+    <label for="jenis">Jenis Produk</label>
+    <select name="jenis" id="jenis" required>
+      <option value="panen">Hasil Panen</option>
+      <option value="hewan">Produk Hewan</option>
+      <option value="makanan">Produk Makanan</option>
+    </select>
+  </div>
+  <div>
+    <label for="nama">Nama</label>
+    <input type="text" name="nama" id="nama" required>
+  </div>
+  <div>
+    <label for="harga">Harga Jual</label>
+    <input type="number" name="harga" id="harga" required>
+  </div>
+  <div>
+    <label for="sifat">Sifat Produk</label>
+    <select name="sifat" id="sifat" required>
+      <option value="raw">Raw Material</option>
+      <option value="semi">Semi-finished Goods</option>
+      <option value="finished">Finished Goods</option>
+    </select>
+  </div>
+
+  <button type="submit">Tambahkan</button>
+</form>
+
+{% else %}
+<h1>ERROR</h1>
+<p>You must be an admin to access this page</p>
+{% endif %}
+{% endblock body %}

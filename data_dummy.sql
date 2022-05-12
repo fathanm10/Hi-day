@@ -92,37 +92,37 @@ INSERT INTO petak_sawah VALUES
     ('ps05','Stroberi');
 
 INSERT INTO produk VALUES
-    ('p1264','Padi',3.0,'raw material'),
-    ('p6532','Jagung',4.0,'raw material'),
-    ('d7y53','Tebu',5.0,'raw material'),
-    ('ji83','Stroberi',7.0,'finished good'),
-    ('b683','Telur',8.0,'raw material'),
-    ('s892','Susu Sapi',20.0,'raw material'),
-    ('hu82','Susu Domba',25.0,'raw material'),
-    ('g632d','wortel',21.0,'raw material'),
-    ('97ebf','Gula Pasir',18.0,'semi finished goods'),
-    ('hu28','Tepung',12.0,'semi finished goods'),
-    ('hy231','Cheese Cake',10.0,'finished good'),
-    ('hdy88','Pie Stroberi',4.0,'finished good'),
-    ('gd6s','Yoghurt',2.0,'finished good'),
-    ('6ys5','Keju',8.0,'semi finished goods');
+    ('HP1','Padi',3.0,'raw material'),
+    ('HP2','Jagung',4.0,'raw material'),
+    ('HP3','Tebu',5.0,'raw material'),
+    ('HP4','Stroberi',7.0,'finished good'),
+    ('PH1','Telur',8.0,'raw material'),
+    ('PH2','Susu Sapi',20.0,'raw material'),
+    ('PH3','Susu Domba',25.0,'raw material'),
+    ('HP5','wortel',21.0,'raw material'),
+    ('PM1','Gula Pasir',18.0,'semi finished goods'),
+    ('PM2','Tepung',12.0,'semi finished goods'),
+    ('PM3','Cheese Cake',10.0,'finished good'),
+    ('PM4','Pie Stroberi',4.0,'finished good'),
+    ('PM5','Yoghurt',2.0,'finished good'),
+    ('PM6','Keju',8.0,'semi finished goods');
 
 INSERT INTO produk_hewan VALUES
-    ('b683'),
-    ('s892'),
-    ('hu82');
+    ('PH1'),
+    ('PH2'),
+    ('PH3');
 
 INSERT INTO hasil_panen VALUES
-    ('p1264'),
-    ('p6532'),
-    ('d7y53'),
-    ('ji83'),
-    ('g632d');
+    ('HP1'),
+    ('HP2'),
+    ('HP3'),
+    ('HP4'),
+    ('HP5');
 
 INSERT INTO produk_makanan VALUES
-    ('97ebf'),
-    ('hu28'),
-    ('hy231'),
-    ('hdy88'),
-    ('gd6s'),
-    ('6ys5');
+    ('PM1'),
+    ('PM2'),
+    ('PM3'),
+    ('PM4'),
+    ('PM5'),
+    ('PM6');

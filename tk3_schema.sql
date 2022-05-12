@@ -281,7 +281,7 @@ CREATE TABLE pesanan (
 CREATE TABLE detail_pesanan (
 	ID_pesanan VARCHAR(5),
 	no_urut VARCHAR(20),
-	subtotal VARCHAR(15) NOT NULL,
+	subtotal INT NOT NULL,
 	jumlah INT NOT NULL,
 	ID_produk VARCHAR(5) NOT NULL,
 	PRIMARY KEY (ID_pesanan, no_urut),
