@@ -17,7 +17,7 @@ def list_produk(request):
     product_data = []
     result = get_query(f'''
             SELECT P.nama, P.harga_jual, P.sifat_produk, 
-            PH.ID_Produk AS ph_id, HP.ID_produk AS hp_id, PM.ID_produk AS pm_id
+            PH.ID_Produk AS ph_id, HP.ID_produk AS hp_id, PM.ID_produk AS pm_id, P.ID
             FROM produk AS P
             FULL JOIN produk_hewan AS PH
             ON PH.ID_produk = P.ID
@@ -41,6 +41,7 @@ def list_produk(request):
             'harga': result[i][1],
             'sifat': result[i][2],
             'jenis': jenis,
+            "id":result[i][6],
         })
 
     data['product'] = product_data
@@ -112,6 +113,50 @@ def add_product(request):
             INSERT INTO produk_makanan VALUES
             ('{id}');
         ''')
+
+    if next != None and next != "None":
+        return redirect(next)
+    else:
+        return redirect("/produk/list-produk")
+
+@csrf_exempt
+def update_product(request, pk):
+    next = request.GET.get("next")
+
+    data = {}
+    data['role'] = get_role(request.session['email'],
+                            request.session['password'])
+    data['user'] = get_session_data(request)
+
+    product_data = get_query(f'''
+        SELECT *
+        FROM produk
+        WHERE ID='{pk}';
+    ''')
+
+    print(product_data)
+    data['product'] = {
+        'id':product_data[0][0],
+        'nama':product_data[0][1],
+        'harga':product_data[0][2],
+        'sifat':product_data[0][3],
+    }
+
+    if request.method != "POST":
+        if not is_authenticated(request):
+            return redirect("/auth/login")
+        return render(request, 'produk/update_produk.html', {'title': "Update Produk", 'data': data})
+
+    body = request.POST
+
+    harga = body['harga']
+    sifat = body['sifat']
+
+    get_query(f'''
+        UPDATE produk
+        SET harga_jual='{harga}', sifat_produk='{sifat}'
+        WHERE ID='{data['product']['id']}';
+    ''')
 
     if next != None and next != "None":
         return redirect(next)

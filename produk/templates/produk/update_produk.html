@@ -2,17 +2,17 @@
 {% load static %}
 
 {% block styles %}
-<link rel="stylesheet" href="{% static 'css/produk/add_produk.css' %}">
+<link rel="stylesheet" href="{% static 'css/produk/update_produk.css' %}">
 {% endblock styles %}
 
 {% block body %}
 {% if data.role == 'admin' %}
-<h1>Tambah Produk</h1>
+<h1>Update Produk</h1>
 
 <form method="post">
   <div>
     <label for="jenis">Jenis Produk</label>
-    <select name="jenis" id="jenis" required>
+    <select name="jenis" id="jenis" required disabled value="{{ data.product.jenis }}">
       <option value="panen">Hasil Panen</option>
       <option value="hewan">Produk Hewan</option>
       <option value="makanan">Produk Makanan</option>
@@ -20,18 +20,18 @@
   </div>
   <div>
     <label for="nama">Nama</label>
-    <input type="text" name="nama" id="nama" required>
+    <input type="text" name="nama" id="nama" required disabled value="{{ data.product.nama }}">
   </div>
   <div>
     <label for="harga">Harga Jual</label>
-    <input type="number" name="harga" id="harga" required>
+    <input type="number" name="harga" id="harga" required value="{{ data.product.harga }}">
   </div>
   <div>
     <label for="sifat">Sifat Produk</label>
-    <input type="text" name="sifat" id="sifat" required>
+    <input type="text" name="sifat" id="sifat" required value="{{ data.product.sifat }}">
   </div>
 
-  <button type="submit">Tambahkan</button>
+  <button type="submit">Update</button>
 </form>
 
 {% else %}
