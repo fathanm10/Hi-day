@@ -24,4 +24,5 @@ urlpatterns = [
     path('auth/', include('login.urls')),
     path('lumbung/', include('lumbung.urls')),
     path('produk/', include('produk.urls')),
+    path('produksi/', include('produksi.urls')),
 ]
