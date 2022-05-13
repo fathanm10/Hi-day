@@ -355,3 +355,27 @@ INSERT INTO transaksi_pembelian VALUES
     ('email19@email.com','2022-10-05 10:04:17',12.0,'bt03'),
     ('email20@email.com','2022-11-05 11:25:05',14.0,'bt03'),
     ('email20@email.com','2022-10-05 10:10:37',14.0,'d02');
+
+INSERT INTO produk_dibutuhkan_oleh_produk_makanan VALUES
+    ('PM1','HP1',12.0),
+    ('PM2','HP2',4.0),
+    ('PM3','HP3',5.0),
+    ('PM4','HP4',2.0),
+    ('PM5','PH1',7.0),
+    ('PM6','PH2',5.0);
+
+INSERT INTO lumbung_memiliki_produk VALUES
+    ('email6@email.com','HP1',4.0),
+    ('email7@email.com','HP2',2.0),
+    ('email8@email.com','HP3',7.0),
+    ('email9@email.com','HP4',3.0),
+    ('email10@email.com','PH1',14.0),
+    ('email11@email.com','PH2',2.0),
+    ('email12@email.com','PH3',7.0),
+    ('email13@email.com','HP5',2.0),
+    ('email14@email.com','PM1',4.0),
+    ('email15@email.com','PM2',2.0),
+    ('email16@email.com','PM3',7.0),
+    ('email17@email.com','PM4',9.0),
+    ('email18@email.com','PM5',3.0),
+    ('email19@email.com','PM6',10.0);

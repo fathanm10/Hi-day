@@ -175,29 +175,29 @@ def delete_product(request, pk):
         return redirect("/produk/list-produk")
 
     product_data = get_query(f'''
-        SELECT DP.ID_produk
-        FROM detail_pesanan AS DP
-        FULL JOIN lumbung_memiliki_produk AS LP
-        ON LP.ID_produk = DP.ID_produk
-        FULL JOIN produk_dibutuhkan_oleh_produk_makanan AS PPMA
-        ON PPMA.ID_produk_makanan = DP.ID_produk
-        FULL JOIN produk_dibutuhkan_oleh_produk_makanan AS PPMB
-        ON PPMB.ID_produk = DP.ID_produk
-        FULL JOIN produksi AS PR
-        ON PR.ID_produk_makanan = DP.ID_produk
-        FULL JOIN HEWAN_MENGHASILKAN_PRODUK_HEWAN AS HPH
-        ON HPH.ID_Produk_Hewan = DP.ID_produk
-        FULL JOIN bibit_tanaman_menghasilkan_hasil_panen AS BTHP
-        ON BTHP.ID_Hasil_Panen = DP.ID_produk
-        WHERE DP.ID_produk='{pk}';
+            SELECT LP.ID_produk
+            FROM lumbung_memiliki_produk AS LP
+            FULL JOIN detail_pesanan AS DP
+            ON LP.ID_produk = DP.ID_produk
+            FULL JOIN produk_dibutuhkan_oleh_produk_makanan AS PPMA
+            ON PPMA.ID_produk_makanan = LP.ID_produk
+            FULL JOIN produk_dibutuhkan_oleh_produk_makanan AS PPMB
+            ON PPMB.ID_produk = LP.ID_produk
+            FULL JOIN produksi AS PR
+            ON PR.ID_produk_makanan = LP.ID_produk
+            FULL JOIN HEWAN_MENGHASILKAN_PRODUK_HEWAN AS HPH
+            ON HPH.ID_Produk_Hewan = LP.ID_produk
+            FULL JOIN bibit_tanaman_menghasilkan_hasil_panen AS BTHP
+            ON BTHP.ID_Hasil_Panen = LP.ID_produk
+            WHERE LP.ID_produk='{pk}';
     ''')
-    # print(product_data)
+    print(product_data)
 
     if (len(product_data) != 0):
         messages.error(request, 'Produk tidak bisa dihapus')
     else:
         get_query(f'''
-            DELETE FROM produk
+            DELETE FROM produk CASCADE
             WHERE ID='{pk}';
         ''')
         messages.success(request, 'Produk berhasil dihapus')

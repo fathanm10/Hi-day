@@ -176,7 +176,7 @@ CREATE TABLE produk_dibutuhkan_oleh_produk_makanan (
 );
 
 CREATE TABLE lumbung_memiliki_produk (
-	ID_lumbung VARCHAR(5),
+	ID_lumbung VARCHAR(50),
 	ID_produk VARCHAR(5),
 	jumlah INT NOT NULL,
 	PRIMARY KEY (ID_lumbung, ID_produk),
