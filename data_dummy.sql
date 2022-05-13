@@ -379,3 +379,19 @@ INSERT INTO lumbung_memiliki_produk VALUES
     ('email17@email.com','PM4',9.0),
     ('email18@email.com','PM5',3.0),
     ('email19@email.com','PM6',10.0);
+
+INSERT INTO produksi VALUES
+    ('ap01','PM1','10:21:15',4.0),
+    ('ap02','PM2','10:34:44',3.0),
+    ('ap03','PM3','11:23:42',4.0),
+    ('ap04','PM4','13:44:51',2.0),
+    ('ap01','PM5','13:45:11',7.0),
+    ('ap03','PM6','13:12:16',1.0);
+
+SELECT PM.nama AS produk, A.nama AS alat, P.durasi, P.jumlah_hasil_unit
+FROM produksi AS P
+INNER JOIN aset AS A
+ON A.ID = P.ID_alat_produksi
+INNER JOIN produk AS PM
+ON PM.ID = P.ID_produk_makanan
+WHERE P.ID_produk_makanan='ap02' AND P.ID_alat_produksi='PM2';
