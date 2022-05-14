@@ -183,7 +183,8 @@ def buat_produksi(request):
 
     return redirect("/produksi/list-produksi")
 
-def update_produksi(request):
+
+def update_produksi(request, pk):
     if not is_authenticated(request):
         return redirect("/auth/login")
 
@@ -191,6 +192,58 @@ def update_produksi(request):
     data['role'] = get_role(request.session['email'],
                             request.session['password'])
     data['user'] = get_session_data(request)
+
+    produk_makanan = pk.split("-")[0]
+    alat_produksi = pk.split("-")[1]
+
+    data_production = get_query(f'''
+        SELECT PM.nama AS makanan, A.nama AS alat, PR.durasi, PR.jumlah_hasil_unit
+        FROM produksi AS PR
+        INNER JOIN produk AS PM
+        ON PM.ID = PR.ID_produk_makanan
+        INNER JOIN aset AS A
+        ON A.ID = PR.ID_alat_produksi
+        WHERE PR.ID_produk_makanan='{produk_makanan}' AND PR.ID_alat_produksi='{alat_produksi}';
+    ''')
+
+    data_bahan = get_query(f'''
+        SELECT PM.nama, PPM.jumlah
+        FROM produk_dibutuhkan_oleh_produk_makanan AS PPM
+        INNER JOIN produk AS PM
+        ON PM.ID = PPM.ID_produk
+        WHERE PPM.ID_produk_makanan='{produk_makanan}';
+    ''')
+
+    bahan = []
+    for i in range(len(data_bahan)):
+        bahan.append({
+            'nama': data_bahan[i][0],
+            'jumlah': data_bahan[i][1],
+        })
+
+    data['production'] = {
+        'makanan': data_production[0][0],
+        'alat': data_production[0][1],
+        'durasi': str(data_production[0][2])[3:5],
+        'jumlah': data_production[0][3],
+        'bahan': bahan
+    }
+
+    if request.method != "POST":
+        return render(request, 'produksi/update_produksi.html', {'title': "Update Produksi", 'data': data})
+
+    body = request.POST
+    durasi = f"00:{body['durasi']}:00"
+    jumlah = body['jumlah']
+
+    get_query(f'''
+        UPDATE produksi
+        SET durasi='{durasi}', jumlah_hasil_unit='{jumlah}'
+        WHERE ID_produk_makanan='{produk_makanan}' AND ID_alat_produksi='{alat_produksi}';
+    ''')
+
+    return redirect("/produksi/list-produksi")
+
 
 def delete_produksi(request):
     if not is_authenticated(request):
@@ -200,4 +253,3 @@ def delete_produksi(request):
     data['role'] = get_role(request.session['email'],
                             request.session['password'])
     data['user'] = get_session_data(request)
- 
