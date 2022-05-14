@@ -315,7 +315,7 @@ def list_koleksi_hewan(request):
     return render(
         request,
         'list_koleksi_hewan.html',
-        {'title': 'Koleksi HEWAN', 'data': data, 'result': result})
+        {'title': 'Koleksi Hewan', 'data': data, 'result': result})
 
 def list_koleksi_alat_produksi(request):
     if not is_authenticated(request):
