@@ -577,3 +577,27 @@ def create_transaksi_beli_aset(request):
 
     print('do stuff')
 
+@csrf_exempt
+def update_dekorasi(request, id):
+    print('do stuff')
+
+@csrf_exempt
+def update_bibit_tanaman(request, id):
+    print('do stuff')
+
+@csrf_exempt
+def update_kandang(request, id):
+    print('do stuff')
+
+@csrf_exempt
+def update_hewan(request, id):
+    print('do stuff')
+
+@csrf_exempt
+def update_alat_produksi(request, id):
+    print('do stuff')
+
+@csrf_exempt
+def update_petak_sawah(request, id):
+    print('do stuff')
+

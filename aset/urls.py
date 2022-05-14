@@ -31,4 +31,10 @@ urlpatterns = [
     path('create/alat-produksi', views.create_alat_produksi, name='create-alat-produksi'),
     path('create/petak-sawah', views.create_petak_sawah, name='create-petak-sawah'),
     
+    path('update/dekorasi/<str:id>', views.update_dekorasi, name='update-dekorasi'),
+    path('update/bibit-tanaman/<str:id>', views.update_bibit_tanaman, name='update-bibit-tanaman'),
+    path('update/kandang/<str:id>', views.update_kandang, name='update-kandang'),
+    path('update/hewan/<str:id>', views.update_hewan, name='update-hewan'),
+    path('update/alat-produksi/<str:id>', views.update_alat_produksi, name='update-alat-produksi'),
+    path('update/petak-sawah/<str:id>', views.update_petak_sawah, name='update-petak-sawah'),
 ]
