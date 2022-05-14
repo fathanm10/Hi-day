@@ -6,5 +6,94 @@
 
 {% block body %}
 <h1>Detail Lumbung</h1>
-<p>Role: {{ data.role }}</p>
+
+{% if data.role == 'user' %}
+<p>Level: {{ data.lumbung.level }}</p>
+<p>Kapasitas: {{ data.lumbung.capacity }}</p>
+{% endif %}
+
+<h2>Produk Hasil Panen</h2>
+<table>
+  <tr>
+    <th>No</th>
+    {% if data.role == 'admin' %}
+    <th>Email Pemilik Lumbung</th>
+    {% endif %}
+    <th>ID Produk</th>
+    <th>Nama Produk</th>
+    <th>Harga Jual</th>
+    <th>Sifat Produk</th>
+    <th>Jumlah Produk</th>
+  </tr>
+  {% for item in data.lumbung.produk.hasil_panen %}
+  <tr>
+    <td>{{ forloop.counter }}</td>
+    {% if data.role == 'admin' %}
+    <td>{{ item.email }}</td>
+    {% endif %}
+    <td>{{ item.id }}</td>
+    <td>{{ item.nama }}</td>
+    <td>{{ item.harga }}</td>
+    <td>{{ item.sifat }}</td>
+    <td>{{ item.jumlah }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<h2>Produk Hewan</h2>
+<table>
+  <tr>
+    <th>No</th>
+    {% if data.role == 'admin' %}
+    <th>Email Pemilik Lumbung</th>
+    {% endif %}
+    <th>ID Produk</th>
+    <th>Nama Produk</th>
+    <th>Harga Jual</th>
+    <th>Sifat Produk</th>
+    <th>Jumlah Produk</th>
+  </tr>
+  {% for item in data.lumbung.produk.produk_hewan %}
+  <tr>
+    <td>{{ forloop.counter }}</td>
+    {% if data.role == 'admin' %}
+    <td>{{ item.email }}</td>
+    {% endif %}
+    <td>{{ item.id }}</td>
+    <td>{{ item.nama }}</td>
+    <td>{{ item.harga }}</td>
+    <td>{{ item.sifat }}</td>
+    <td>{{ item.jumlah }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<h2>Produk Makanan</h2>
+<table>
+  <tr>
+    <th>No</th>
+    {% if data.role == 'admin' %}
+    <th>Email Pemilik Lumbung</th>
+    {% endif %}
+    <th>ID Produk</th>
+    <th>Nama Produk</th>
+    <th>Harga Jual</th>
+    <th>Sifat Produk</th>
+    <th>Jumlah Produk</th>
+  </tr>
+  {% for item in data.lumbung.produk.produk_makanan %}
+  <tr>
+    <td>{{ forloop.counter }}</td>
+    {% if data.role == 'admin' %}
+    <td>{{ item.email }}</td>
+    {% endif %}
+    <td>{{ item.id }}</td>
+    <td>{{ item.nama }}</td>
+    <td>{{ item.harga }}</td>
+    <td>{{ item.sifat }}</td>
+    <td>{{ item.jumlah }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
 {% endblock body %}
