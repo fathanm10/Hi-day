@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+ 
+{% block styles %}
+{% endblock styles %}
+
+
+{% block body %}
+<h1>Form Buat Aset {{ title }}</h1>
+<form method="post">
+    <div>
+        <label for="id">ID:</label>
+        <input type="id" name="id" id="id" placeholder="hXX" disabled>
+    </div>
+    <div>
+        <label for="nama">Nama:</label>
+        <input type="nama" name="nama" id="nama" placeholder="Nama" disabled>
+    </div>
+    <div>
+        <label for="minimum_level">Minimum Level:</label>
+        <input type="minimum_level" name="minimum_level" id="minimum_level">
+    </div>
+    <div>
+        <label for="harga_beli">Harga Beli:</label>
+        <input type="harga_beli" name="harga_beli" id="harga_beli">
+    </div>
+
+
+    
+    <div>
+        <label for="durasi_produksi">Durasi Produksi:</label>
+        <input type="durasi_produksi" name="durasi_produksi" id="durasi_produksi">
+    </div>
+    <div>
+        <label for="id_kandang">ID Kandang:</label>
+        <input type="id_kandang" name="id_kandang" id="id_kandang" placeholder="ID Kandang" disabled>
+    </div>
+
+    
+    <button type="submit">Tambahkan</button>
+
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
+</form>
+{% endblock body %}

@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
 
 from hi_day.auth import is_authenticated, get_session_data, get_role
 from hi_day.utils import get_query
@@ -448,3 +449,155 @@ def list_transaksi_pembelian_aset(request):
         request,
         'list_transaksi_pembelian_aset.html',
         {'title': 'Transaksi Pembelian Aset', 'data': data, 'result': result})
+
+
+
+
+
+
+
+
+
+
+
+
+def create_aset_list(request):
+    if not is_authenticated(request):
+        return redirect("/auth/login")
+    
+    print('masuk')
+    data = get_session_data(request)
+    return render(
+        request,
+        'create_aset_list.html',
+        {'title': 'Menu Buat Aset', 'data': data})
+
+@csrf_exempt
+def create_dekorasi(request):
+    if not is_authenticated(request):
+        return redirect("/auth/login")
+
+    data = get_session_data(request)
+    if request.method != "POST":
+        return render(request, 'create_dekorasi.html',
+        {
+            'title': "Dekorasi",
+            'data': data
+        })
+
+    print('do stuff')
+
+@csrf_exempt
+def create_bibit_tanaman(request):
+    if not is_authenticated(request):
+        return redirect("/auth/login")
+
+    data = get_session_data(request)
+    if request.method != "POST":
+        return render(request, 'create_bibit_tanaman.html',
+        {
+            'title': "Bibit Tanaman",
+            'data': data
+        })
+
+    print('do stuff')
+
+@csrf_exempt
+def create_kandang(request):
+    if not is_authenticated(request):
+        return redirect("/auth/login")
+
+    data = get_session_data(request)
+    if request.method != "POST":
+        return render(request, 'create_kandang.html',
+        {
+            'title': "Kandang",
+            'data': data
+        })
+
+    print('masuk')
+
+@csrf_exempt
+def create_hewan(request):
+    if not is_authenticated(request):
+        return redirect("/auth/login")
+
+    data = get_session_data(request)
+    if request.method != "POST":
+        return render(request, 'create_hewan.html',
+        {
+            'title': "Hewan",
+            'data': data
+        })
+
+    print('do stuff')
+
+@csrf_exempt
+def create_alat_produksi(request):
+    if not is_authenticated(request):
+        return redirect("/auth/login")
+
+    data = get_session_data(request)
+    if request.method != "POST":
+        return render(request, 'create_alat_produksi.html',
+        {
+            'title': "Alat Produksi",
+            'data': data
+        })
+
+    print('do stuff')
+
+@csrf_exempt
+def create_petak_sawah(request):
+    if not is_authenticated(request):
+        return redirect("/auth/login")
+
+    data = get_session_data(request)
+    if request.method != "POST":
+        return render(request, 'create_petak_sawah.html',
+        {
+            'title': "Petak Sawah",
+            'data': data
+        })
+
+    print('do stuff')
+
+@csrf_exempt
+def create_transaksi_beli_aset(request):
+    if not is_authenticated(request):
+        return redirect("/auth/login")
+
+    data = get_session_data(request)
+    if request.method != "POST":
+        return render(request, 'create_transaksi_beli_aset.html',
+        {
+            'title': "Menu Buat Transaksi Pembelian Aset",
+            'data': data
+        })
+
+    print('do stuff')
+
+@csrf_exempt
+def update_dekorasi(request, id):
+    print('do stuff')
+
+@csrf_exempt
+def update_bibit_tanaman(request, id):
+    print('do stuff')
+
+@csrf_exempt
+def update_kandang(request, id):
+    print('do stuff')
+
+@csrf_exempt
+def update_hewan(request, id):
+    print('do stuff')
+
+@csrf_exempt
+def update_alat_produksi(request, id):
+    print('do stuff')
+
+@csrf_exempt
+def update_petak_sawah(request, id):
+    print('do stuff')
+
