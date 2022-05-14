@@ -17,11 +17,4 @@
 </div>
 {% endfor %}
 {% endif %}
-
-{% if data|get_item:'role' == 'user' %}
-<p>Pengguna only data</p>
-{% elif data|get_item:'role' == 'admin' %}
-<p>All data + kolom email</p>
-{% endif %}
-
 {% endblock body %}

@@ -7,6 +7,8 @@ from django.template.defaulttags import register
 from hi_day.utils import get_query
 from hi_day.auth import is_authenticated, get_role, get_session_data
 
+import datetime
+
 @register.filter
 def get_item(dictionary, key):
     return dictionary.get(key)
@@ -40,9 +42,9 @@ def buat(request):
     
     jumlah_koin = request.POST["jumlah_koin"]
     harga = request.POST["harga"]
-    
-    if jumlah_koin == "":
-        messages.error(request, 'Input masih ada yang kosong')
+
+    if (jumlah_beli == "") or (harga == ""):
+        messages.error(request, "Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu")
         return redirect("/paketkoin/buat")
 
     try:
@@ -83,13 +85,8 @@ def edit(request, jumlah_koin, cmd):
     
     harga = request.POST["harga"]
     if harga == "":
-        messages.error(request, 'Input masih ada yang kosong')
-        return render(request, 'paketkoin/ubah.html', {
-            'title': "Edit Paket Koin",
-            'data': data,
-            'jumlah_koin': jumlah_koin
-        })
-    
+        messages.error(request, "Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu")
+        return redirect(f"/paketkoin/ubah/{jumlah_koin}/{cmd}")
     try:
         harga = int(harga)
     except:
@@ -121,10 +118,6 @@ def ubah(request):
     jumlah_koin = request.POST["jumlah_koin"]
     harga = request.POST["harga"]
     
-    if (jumlah_koin == "") or (harga == ""):
-        messages.error(request, 'Input masih ada yang kosong')
-        return redirect("/paketkoin/buat")
-
     try:
         jumlah_koin = int(jumlah_koin)
         harga = int(harga)
@@ -144,14 +137,63 @@ def ubah(request):
 
 def transaksi(request):
     data = get_session_data(request)
-    daftartransaksi = get_query(
-        f"""
-        SELECT * from TRANSAKSI_PEMBELIAN_KOIN
-        """
-    )
+    if data['role'] == 'admin':
+        daftartransaksi = get_query(
+            f"""
+            SELECT * from TRANSAKSI_PEMBELIAN_KOIN
+            """
+        )
+    elif data['role'] == 'user':
+        daftartransaksi = get_query(
+            f"""
+            SELECT * from TRANSAKSI_PEMBELIAN_KOIN
+            WHERE email = '{request.session['email']}'
+            """
+        )
     print(daftartransaksi)
     return render(request, 'paketkoin/transaksi.html', {
         'title': "Transaksi Pembelian Koin",
         'data':data,
         'daftartransaksi':daftartransaksi
     })
+
+@csrf_exempt
+def beli(request, jumlah_koin):
+    data = get_session_data(request)
+    if request.method != 'POST':
+        paket_koin = get_query(
+            f"""
+                SELECT * FROM paket_koin
+                WHERE jumlah_koin = '{jumlah_koin}'
+            """
+        )
+        print(paket_koin)
+        return render(request, 'paketkoin/beli.html', {
+            'title': "Pembelian Paket Koin",
+            'data':data,
+            'paket':paket_koin[0]
+        })
+    
+    paket = request.POST["paket"]
+    harga = request.POST["harga"]
+    jumlah_beli = request.POST["jumlah_beli"]
+    cara_bayar = request.POST["cara_bayar"]
+
+    if (jumlah_beli == "") or (cara_bayar == ""):
+        messages.error(request, "Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu")
+        return redirect(f"/paketkoin/beli/{jumlah_koin}")
+        
+    try:
+        jumlah_beli = int(jumlah_beli)
+    except:
+        messages.error(request, 'Input bukan desimal')
+        return redirect(f"/paketkoin/beli/{jumlah_koin}")
+    
+    result = get_query(
+        f"""
+            INSERT INTO TRANSAKSI_PEMBELIAN_KOIN VALUES
+            ('{request.session['email']}', '{datetime.datetime.now()}', '{jumlah_beli}', '{cara_bayar}', '{paket}', 0)
+        """
+    )
+
+    return redirect("/paketkoin")

@@ -13,7 +13,7 @@
     <p>Jumlah koin: {{ paket.jumlah_koin }}</p>
     <p>Harga: {{ paket.harga }}</p>
     {% if data|get_item:'role' == 'user' %}
-    <p>beli</p>
+    <p><a href="{% url 'paketkoin:beli' paket.jumlah_koin %}">Beli</a></p>
     {% endif %}
     {% if data|get_item:'role' == 'admin' %}
     <p><a href="{% url 'paketkoin:edit' paket.jumlah_koin 'update' %}">Update</a></p>

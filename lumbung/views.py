@@ -17,11 +17,19 @@ def index(request):
 
 def transaksi(request):
     data = get_session_data(request)
-    daftartransaksi = get_query(
-        f"""
-        SELECT * from TRANSAKSI_UPGRADE_LUMBUNG
-        """
-    )
+    if data['role'] == 'admin':
+        daftartransaksi = get_query(
+            f"""
+            SELECT * from TRANSAKSI_UPGRADE_LUMBUNG
+            """
+        )
+    elif data['role'] == 'user':
+        daftartransaksi = get_query(
+            f"""
+            SELECT * from TRANSAKSI_UPGRADE_LUMBUNG
+            WHERE email = '{request.session['email']}'
+            """
+        )
     print(daftartransaksi)
     return render(request, 'lumbung/transaksi.html', {
         'title': "Transaksi Upgrade Lumbung",
