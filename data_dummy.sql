@@ -387,11 +387,3 @@ INSERT INTO produksi VALUES
     ('ap04','PM4','13:44:51',2.0),
     ('ap01','PM5','13:45:11',7.0),
     ('ap03','PM6','13:12:16',1.0);
-
-SELECT PM.nama AS produk, A.nama AS alat, P.durasi, P.jumlah_hasil_unit
-FROM produksi AS P
-INNER JOIN aset AS A
-ON A.ID = P.ID_alat_produksi
-INNER JOIN produk AS PM
-ON PM.ID = P.ID_produk_makanan
-WHERE P.ID_produk_makanan='ap02' AND P.ID_alat_produksi='PM2';

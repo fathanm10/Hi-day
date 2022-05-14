@@ -25,7 +25,7 @@ def list_produksi(request):
             ON PM.ID = P.ID_produk_makanan;
         ''')
 
-    print(result[1])
+    # print(result[1])
 
     for i in range(len(result)):
         production_data.append({
@@ -67,8 +67,8 @@ def detail_produksi(request, pk):
         SELECT PM.nama, PPM.jumlah
         FROM produk_dibutuhkan_oleh_produk_makanan AS PPM
         INNER JOIN produk AS PM
-        ON PM.ID = PPM.ID_produk_makanan
-        WHERE ID_produk_makanan='{produk_makanan}';
+        ON PM.ID = PPM.ID_produk
+        WHERE PPM.ID_produk_makanan='{produk_makanan}';
     ''')
     print(result)
     print(component)
@@ -76,8 +76,8 @@ def detail_produksi(request, pk):
     bahan = []
     for i in range(len(component)):
         bahan.append({
-            "nama":component[i][0],
-            "jumlah":component[i][1],
+            "nama": component[i][0],
+            "jumlah": component[i][1],
         })
 
     production_data = {
@@ -85,9 +85,119 @@ def detail_produksi(request, pk):
         "alat": result[0][1],
         "durasi": str(result[0][2]),
         "jumlah": result[0][3],
-        "bahan":bahan,
+        "bahan": bahan,
     }
 
     data['production'] = production_data
 
     return render(request, 'produksi/detail_produksi.html', {'title': "Detail Produksi", 'data': data})
+
+
+def buat_produksi(request):
+    next = request.GET.get("add")
+
+    data = {}
+    data['role'] = get_role(request.session['email'],
+                            request.session['password'])
+    data['user'] = get_session_data(request)
+
+    data_makanan = get_query('''
+        SELECT P.nama, P.ID
+        FROM produk AS P
+        INNER JOIN produk_makanan AS PM
+        ON PM.ID_Produk = P.ID;
+    ''')
+
+    data_alat = get_query('''
+        SELECT A.nama, A.ID
+        FROM aset AS A
+        INNER JOIN alat_produksi AS AP
+        ON AP.ID_aset = A.ID;
+    ''')
+
+    data_produk = get_query('''
+        SELECT P.nama, P.ID
+        FROM produk AS P;
+    ''')
+
+    data['production'] = {}
+    makanan = []
+    alat = []
+    produk = []
+    for i in range(len(data_makanan)):
+        makanan.append({
+            "nama": data_makanan[i][0],
+            "id": data_makanan[i][1],
+        })
+    for i in range(len(data_alat)):
+        alat.append({
+            "nama": data_alat[i][0],
+            "id": data_alat[i][1],
+        })
+    for i in range(len(data_produk)):
+        produk.append({
+            "nama": data_produk[i][0],
+            "id": data_produk[i][1],
+        })
+
+    data['production']['makanan'] = makanan
+    data['production']['alat'] = alat
+    data['production']['produk'] = produk
+
+    if request.method != "POST":
+        if not is_authenticated(request):
+            return redirect("/auth/login")
+        return render(request, 'produksi/add_produksi.html', {'title': "Buat Produksi", 'data': data})
+
+    body = request.POST
+    makanan = body['makanan']
+    alat = body['alat']
+    durasi = f"00:{body['durasi']}:00"
+    jumlah = body['jumlah']
+
+    bahanList = list(body.values())[7:-1]
+    bahan = {}
+    i = 0
+    j = 1
+    while i < len(bahanList):
+        bahan["bahan" + str(j)] = {}
+        bahan["bahan" + str(j)]["bahan"] = bahanList[i]
+        bahan["bahan" + str(j)]["jumlahBahan"] = bahanList[i + 1]
+        i += 2
+        j += 1
+
+    get_query(f'''
+        INSERT INTO produksi
+        VALUES ('{alat}', '{makanan}', '{durasi}', '{jumlah}');
+    ''')
+
+    for i in bahan:
+        id_bahan = get_query(f'''
+            SELECT ID FROM produk WHERE nama='{bahan[i]['bahan']}';
+        ''')
+
+        get_query(f'''
+            INSERT INTO produk_dibutuhkan_oleh_produk_makanan
+            VALUES ('{makanan}', '{id_bahan[0][0]}', '{bahan[i]['jumlahBahan']}');
+        ''')
+
+    return redirect("/produksi/list-produksi")
+
+def update_produksi(request):
+    if not is_authenticated(request):
+        return redirect("/auth/login")
+
+    data = {}
+    data['role'] = get_role(request.session['email'],
+                            request.session['password'])
+    data['user'] = get_session_data(request)
+
+def delete_produksi(request):
+    if not is_authenticated(request):
+        return redirect("/auth/login")
+
+    data = {}
+    data['role'] = get_role(request.session['email'],
+                            request.session['password'])
+    data['user'] = get_session_data(request)
+ 
