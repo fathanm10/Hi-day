@@ -19,7 +19,7 @@ def get_query(str):
         result = namedtuplefetchall(cursor)
     except Exception as e:
         print(e)
-        result[0] = e
+        # result[0] = e
     finally:
         cursor.close()
         return result
