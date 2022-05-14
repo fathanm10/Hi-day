@@ -21,6 +21,7 @@ urlpatterns = [
     path('koleksi/petak-sawah', views.list_koleksi_petak_sawah, name='list-koleksi-petak-sawah'),
 
     path('transaksi', views.list_transaksi_pembelian_aset, name='list-transaksi-pembelian-aset'),
+    path('transaksi/create', views.create_transaksi_beli_aset, name='create-transaksi-beli-aset'),
 
     path('create', views.create_aset_list, name='create-aset-list'),
     path('create/dekorasi', views.create_dekorasi, name='create-dekorasi'),

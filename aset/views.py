@@ -562,3 +562,18 @@ def create_petak_sawah(request):
 
     print('do stuff')
 
+@csrf_exempt
+def create_transaksi_beli_aset(request):
+    if not is_authenticated(request):
+        return redirect("/auth/login")
+
+    data = get_session_data(request)
+    if request.method != "POST":
+        return render(request, 'create_transaksi_beli_aset.html',
+        {
+            'title': "Menu Buat Transaksi Pembelian Aset",
+            'data': data
+        })
+
+    print('do stuff')
+

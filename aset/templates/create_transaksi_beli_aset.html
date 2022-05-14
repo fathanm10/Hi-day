@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+ 
+{% block styles %}
+{% endblock styles %}
+
+
+{% block body %}
+<h1>{{ title }}</h1>
+<form method="post">
+    <div>
+        <label for="detail_aset">Detail Aset:</label>
+        <select id="detail_aset" name="detail_aset">
+            <option value="kucing">Kucing</option>
+            <option value="lidah kucing">Lidah Kucing</option>
+            <option value="patung kucing">Patung Kucing</option>
+            <option value="wortel">Wortel</option>
+        </select>
+    </div>
+    <div>
+        <label for="jumlah">Jumlah:</label>
+        <input type="jumlah" name="jumlah" id="jumlah">
+    </div>
+
+    <button type="submit">Beli</button>
+
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
+</form>
+{% endblock body %}
