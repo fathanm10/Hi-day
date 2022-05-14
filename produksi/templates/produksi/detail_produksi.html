@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/produksi/detail_produksi.css' %}">
+{% endblock styles %}
+
+{% block body %}
+<h1>Detail Produksi</h1>
+
+<p>Nama Produk Makanan : {{ data.production.nama }}</p>
+<p>Alat Produksi : {{ data.production.alat }}</p>
+<p>Durasi Produksi (dalam menit) : {{ data.production.durasi }}</p>
+<p>Jumlah Produk yang Dihasilkan : {{ data.production.jumlah }}</p>
+
+<p>Daftar Bahan yang Dibutuhkan: </p>
+<table>
+  <tr>
+    <th>Nama</th>
+    <th>Jumlah</th>
+  </tr>
+
+  {% for item in data.production.bahan %}
+  <tr>
+    <td>{{ item.nama }}</td>
+    <td>{{ item.jumlah }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock body %}
