@@ -22,4 +22,12 @@ urlpatterns = [
 
     path('transaksi', views.list_transaksi_pembelian_aset, name='list-transaksi-pembelian-aset'),
 
+    path('create', views.create_aset_list, name='create-aset-list'),
+    path('create/dekorasi', views.create_dekorasi, name='create-dekorasi'),
+    path('create/bibit-tanaman', views.create_bibit_tanaman, name='create-bibit-tanaman'),
+    path('create/kandang', views.create_kandang, name='create-kandang'),
+    path('create/hewan', views.create_hewan, name='create-hewan'),
+    path('create/alat-produksi', views.create_alat_produksi, name='create-alat-produksi'),
+    path('create/petak-sawah', views.create_petak_sawah, name='create-petak-sawah'),
+    
 ]
