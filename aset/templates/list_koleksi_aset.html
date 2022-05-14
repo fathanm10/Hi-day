@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{% endblock styles %}
+
+{% block body %}
+<h1>{{ title }}</h1>
+<div style="text-align: center;">
+    <form method="GET" action="koleksi/dekorasi"><input type="submit" value="Dekorasi"/></form>
+    <form method="GET" action="koleksi/bibit-tanaman"><input type="submit" value="Bibit Tanaman"/></form>
+    <form method="GET" action="koleksi/kandang"><input type="submit" value="Kandang"/></form>
+    <form method="GET" action="koleksi/hewan"><input type="submit" value="Hewan"/></form>
+    <form method="GET" action="koleksi/alat-produksi"><input type="submit" value="Alat Produksi"/></form>
+    <form method="GET" action="koleksi/petak-sawah"><input type="submit" value="Petak Sawah"/></form>
+</div>
+{% endblock body %}
