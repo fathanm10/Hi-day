@@ -12,11 +12,19 @@ def index(request):
 
 def histori_tanaman(request):
     data = get_session_data(request)
-    daftarhistory = get_query(
-        f"""
-        SELECT * from HISTORI_TANAMAN NATURAL JOIN HISTORI_PRODUKSI
-        """
-    )
+    if data['role'] == 'admin':
+        daftarhistory = get_query(
+            f"""
+            SELECT * from HISTORI_TANAMAN NATURAL JOIN HISTORI_PRODUKSI
+            """
+        )
+    elif data['role'] == 'user':
+        daftarhistory = get_query(
+            f"""
+            SELECT * from HISTORI_TANAMAN NATURAL JOIN HISTORI_PRODUKSI
+            WHERE email = '{request.session['email']}'
+            """
+        )
     print(daftarhistory)
     return render(request, 'prosesproduksi/histori_tanaman.html', {
         'title': "Histori Tanaman",
