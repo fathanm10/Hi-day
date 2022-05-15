@@ -74,7 +74,7 @@ def histori_makanan(request):
             WHERE HP.email = '{request.session['email']}'
             """
         )
-    print(daftarhistory)
+    # print(daftarhistory)
 
     return render(request, 'prosesproduksi/histori_makanan.html', {
         'title': "Histori Makanan",
