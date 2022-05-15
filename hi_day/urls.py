@@ -26,4 +26,5 @@ urlpatterns = [
     path('lumbung/', include('lumbung.urls')),
     path('paketkoin/', include('paketkoin.urls')),
     path('prosesproduksi/', include('prosesproduksi.urls')),
+    path('aset/', include('aset.urls'))
 ]

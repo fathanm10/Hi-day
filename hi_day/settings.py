@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'login',
     'lumbung',
     'paketkoin',
-    'prosesproduksi'
+    'prosesproduksi',
+    'aset'
 ]
 
 MIDDLEWARE = [
