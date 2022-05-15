@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/produksi/list_produksi.css' %}">
+{% endblock styles %}
+
+{% block body %}
+<h1>List Produksi</h1>
+
+{% if messages %}
+  {% for message in messages %}
+    {% if message.tags == "error" %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% else %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endif %}
+  {% endfor %}
+{% endif %}
+  
+<table>
+  <tr>
+    <th>No.</th>
+    <th>Produk Makanan</th>
+    <th>Alat Produksi</th>
+    <th>Durasi Produksi</th>
+    <th>Jumlah Produk Hasil Produksi</th>
+    <th>Action</th>
+  </tr>
+
+  {% for item in data.product %}
+  <tr>
+    <td>{{ forloop.counter }}</td>
+    <td>{{ item.nama }}</td>
+    <td>{{ item.alat }}</td>
+    <td>{{ item.durasi }}</td>
+    <td>{{ item.jumlah }}</td>
+
+    <td>
+      <a href="/produksi/detail-produksi/{{ item.id }}">Detail</a>
+      {% if data.role == 'admin' %}
+      <a href="/produksi/update-produksi/{{ item.id }}">Update</a>
+      <a href="/produksi/delete-produksi/{{ item.id }}">Delete</a>
+      {% endif %}
+    </td>
+  </tr>
+  
+  {% endfor %}
+
+</table>
+
+{% endblock body %}

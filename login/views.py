@@ -1,4 +1,4 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
@@ -13,7 +13,6 @@ def index(request):
     return render(request, 'login/index.html', {'title': "Masuk"})
 
 
-@csrf_exempt
 def login(request):
     next = request.GET.get("next")
 
@@ -68,7 +67,6 @@ def logout(request):
         return redirect("/auth/login")
 
 
-@csrf_exempt
 def register(request):
     next = request.GET.get("next")
 
@@ -78,7 +76,6 @@ def register(request):
     return render(request, 'login/register.html', {'title': "Register"})
 
 
-@csrf_exempt
 def register_admin(request):
     next = request.GET.get("next")
 
@@ -121,7 +118,6 @@ def register_admin(request):
     else:
         return redirect("/")
 
-@csrf_exempt
 def register_user(request):
     next = request.GET.get("next")
 
