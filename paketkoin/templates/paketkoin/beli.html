@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{% endblock styles %}
+
+{% block body %}
+<h1>Form {{ title }}</h1>
+<form method="post" class="buat">
+    <div class="">
+        <label for="paket">Paket Koin:</label>
+        <input type="paket" name="paket" id="paket" value='{{ paket.jumlah_koin }}' readonly>
+    </div>
+    <div class="">
+        <label for="harga">Harga:</label>
+        <input type="harga" name="harga" id="harga" value='{{ paket.harga }}' readonly>
+    </div>
+    <div class="">
+        <label for="jumlah_beli">Jumlah:</label>
+        <input type="jumlah_beli" name="jumlah_beli" id="jumlah_beli" required>
+    </div>
+    <div class="">
+        <label for="cara_bayar">Cara Pembayaran:</label>
+        <input type="cara_bayar" name="cara_bayar" id="cara_bayar" required>
+    </div>
+    <button type="submit">Beli</button>
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-danger" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+</form>
+{% endblock body %}

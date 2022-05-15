@@ -24,5 +24,7 @@ urlpatterns = [
     # path('home/', RedirectView.as_view(pattern_name='index')),
     path('auth/', include('login.urls')),
     path('lumbung/', include('lumbung.urls')),
-    path('aset/', include('aset.urls')),
+    path('paketkoin/', include('paketkoin.urls')),
+    path('prosesproduksi/', include('prosesproduksi.urls')),
+    path('aset/', include('aset.urls'))
 ]
