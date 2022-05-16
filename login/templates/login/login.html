@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block styles %}
+<link rel="stylesheet" href="{% static 'css/auth/auth.css' %}">
 <link rel="stylesheet" href="{% static 'css/auth/login.css' %}">
 {% endblock styles %}
 
@@ -10,14 +11,17 @@
 
 <form method="post" class="login">
   {% csrf_token %}
-  <div class="">
-    <label for="email">Email:</label>
-    <input type="email" name="email" id="email">
-  </div>
-  <div class="">
-    <label for="password">Password:</label>
-    <input type="password" name="password" id="password">
-  </div>
+
+  <table class="table">
+    <tr>
+      <td><label for="email">Email</label></td>
+      <td><input type="email" name="email" id="email" required></td>
+    </tr>
+    <tr>
+      <td><label for="password">Password</label></td>
+      <td><input type="password" name="password" id="password" required></td>
+    </tr>
+  </table>
 
   {% if messages %}
     {% for message in messages %}

@@ -1,12 +1,7 @@
-.regist {
-  --padding: 5rem;
-    display: flex;
-    flex-direction: column;
-    padding-left: var(--padding);
-    padding-right: var(--padding);
-    gap: 2rem;
-}
-
-.message {
-  color: red;
+.regis {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 50%;
 }
