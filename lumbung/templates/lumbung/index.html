@@ -2,18 +2,31 @@
 {% load static %}
 
 {% block styles %}
+<link rel="stylesheet" href="{% static 'css/lumbung/index.css' %}">
 {% endblock styles %}
 
 {% block body %}
-<h1>Detail Lumbung</h1>
+
+<div class="main">
+  <h1>Detail Lumbung</h1>
 
 {% if data.role == 'user' %}
-<p>Level: {{ data.lumbung.level }}</p>
-<p>Kapasitas: {{ data.lumbung.capacity }}</p>
+<div class="">
+  <table class="table">
+    <tr>
+      <td>Level</td>
+      <td>{{ data.lumbung.level }}</td>
+    </tr>
+    <tr>
+      <td>Kapasitas</td>
+      <td>{{ data.lumbung.capacity }}</td>
+    </tr>
+  </table>
+</div>
 {% endif %}
 
 <h2>Produk Hasil Panen</h2>
-<table>
+<table class="table table-striped">
   <tr>
     <th>No</th>
     {% if data.role == 'admin' %}
@@ -27,7 +40,7 @@
   </tr>
   {% for item in data.lumbung.produk.hasil_panen %}
   <tr>
-    <td>{{ forloop.counter }}</td>
+    <th>{{ forloop.counter }}</th>
     {% if data.role == 'admin' %}
     <td>{{ item.email }}</td>
     {% endif %}
@@ -41,7 +54,7 @@
 </table>
 
 <h2>Produk Hewan</h2>
-<table>
+<table class="table table-striped">
   <tr>
     <th>No</th>
     {% if data.role == 'admin' %}
@@ -55,7 +68,7 @@
   </tr>
   {% for item in data.lumbung.produk.produk_hewan %}
   <tr>
-    <td>{{ forloop.counter }}</td>
+    <th>{{ forloop.counter }}</th>
     {% if data.role == 'admin' %}
     <td>{{ item.email }}</td>
     {% endif %}
@@ -69,7 +82,7 @@
 </table>
 
 <h2>Produk Makanan</h2>
-<table>
+<table class="table table-striped">
   <tr>
     <th>No</th>
     {% if data.role == 'admin' %}
@@ -83,7 +96,7 @@
   </tr>
   {% for item in data.lumbung.produk.produk_makanan %}
   <tr>
-    <td>{{ forloop.counter }}</td>
+    <th>{{ forloop.counter }}</th>
     {% if data.role == 'admin' %}
     <td>{{ item.email }}</td>
     {% endif %}
@@ -95,5 +108,6 @@
   </tr>
   {% endfor %}
 </table>
+</div>
 
 {% endblock body %}
