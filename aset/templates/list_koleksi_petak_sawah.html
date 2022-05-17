@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+ 
+{% block styles %}
+{% endblock styles %}
+ 
+{% block body %}
+    <h1>{{ title }}</h1>
+    <table style="border-collapse: collapse; border: 2px solid;">
+        <tr>
+            <th style="border-collapse: collapse; border: 1px solid;">No</th>
+            {% if data.role == 'admin' %}
+            <th style="border-collapse: collapse; border: 1px solid;">Email Pengguna</th>
+            {% endif %}
+            <th style="border-collapse: collapse; border: 1px solid;">ID Aset</th>
+            <th style="border-collapse: collapse; border: 1px solid;">Nama</th>
+            <th style="border-collapse: collapse; border: 1px solid;">Minimum Level</th>
+            <th style="border-collapse: collapse; border: 1px solid;">Harga Beli</th>
+            <th style="border-collapse: collapse; border: 1px solid;">Jenis Tanaman</th>
+            <th style="border-collapse: collapse; border: 1px solid;">Jumlah</th>
+        </tr>
+        {% for object in result %}
+        <tr>
+            <td style="border-collapse: collapse; border: 1px solid;">{{ forloop.counter }}</td>
+            {% if data.role == 'admin' %}
+            <td style="border-collapse: collapse; border: 1px solid;">{{ object.id_koleksi_aset }}</td>
+            {% endif %}
+            <td style="border-collapse: collapse; border: 1px solid;">{{ object.id }}</td>
+            <td style="border-collapse: collapse; border: 1px solid;">{{ object.nama }}</td>
+            <td style="border-collapse: collapse; border: 1px solid;">{{ object.min_level }}</td>
+            <td style="border-collapse: collapse; border: 1px solid;">{{ object.harga_beli }}</td>
+            <td style="border-collapse: collapse; border: 1px solid;">{{ object.jenis_tanaman }}</td>
+            <td style="border-collapse: collapse; border: 1px solid;">{{ object.jumlah }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock body %}

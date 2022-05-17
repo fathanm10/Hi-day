@@ -3,12 +3,11 @@ CREATE TABLE akun (
 	PRIMARY KEY (email)
 );
 
--- Level tidak usah diimplementasi
--- CREATE TABLE level (
--- 	nomor INT,
--- 	min_xp INT NOT NULL,
--- 	PRIMARY KEY (nomor)
--- );
+CREATE TABLE level (
+	nomor INT,
+	min_xp INT NOT NULL,
+	PRIMARY KEY (nomor)
+);
 
 CREATE TABLE admin (
 	email VARCHAR(50),
@@ -25,8 +24,8 @@ CREATE TABLE pengguna (
 	koin INT NOT NULL DEFAULT 0,
 	level INT NOT NULL DEFAULT 1,
 	PRIMARY KEY (email),
-	FOREIGN KEY (email) REFERENCES akun(email) ON UPDATE CASCADE ON DELETE CASCADE
-	-- FOREIGN KEY (level) REFERENCES level(nomor) ON UPDATE CASCADE ON DELETE CASCADE
+	FOREIGN KEY (email) REFERENCES akun(email) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (level) REFERENCES level(nomor) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE paket_koin (
@@ -87,7 +86,7 @@ CREATE TABLE bibit_tanaman (
 
 CREATE TABLE kandang (
 	ID_aset VARCHAR(5),
-	kapasitas_max TIME NOT NULL,
+	kapasitas_max INT NOT NULL,
 	jenis_hewan VARCHAR(50) UNIQUE NOT NULL,
 	PRIMARY KEY (ID_aset),
 	FOREIGN KEY (ID_aset) REFERENCES aset(ID) ON UPDATE CASCADE ON DELETE CASCADE
@@ -176,7 +175,7 @@ CREATE TABLE produk_dibutuhkan_oleh_produk_makanan (
 );
 
 CREATE TABLE lumbung_memiliki_produk (
-	ID_lumbung VARCHAR(5),
+	ID_lumbung VARCHAR(50),
 	ID_produk VARCHAR(5),
 	jumlah INT NOT NULL,
 	PRIMARY KEY (ID_lumbung, ID_produk),
@@ -184,11 +183,38 @@ CREATE TABLE lumbung_memiliki_produk (
 	FOREIGN KEY (ID_produk) REFERENCES produk(ID) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
--- Tidak usah diimplementasi
--- BIBIT_TANAMAN_MENGHASILKAN_HASIL_PANEN
--- HEWAN_MEMBUTUHKAN_HASIL_PANEN
--- BIBIT_TANAMAN_DITANAM_DI_PETAK_SAWAH
--- HEWAN_MENGHASILKAN_PRODUK_HEWAN
+CREATE TABLE bibit_tanaman_menghasilkan_hasil_panen (
+	ID_Bibit_Tanaman VARCHAR(5),
+	ID_Hasil_Panen  VARCHAR(5),
+	PRIMARY KEY (ID_Bibit_Tanaman, ID_Hasil_Panen),
+	FOREIGN KEY (ID_Bibit_Tanaman) REFERENCES bibit_tanaman(ID_aset) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (ID_Hasil_Panen) REFERENCES hasil_panen(ID_produk) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE HEWAN_MEMBUTUHKAN_HASIL_PANEN (
+	ID_Hewan VARCHAR(5),
+	ID_Hasil_Panen  VARCHAR(5),
+	jumlah INT NOT NULL,
+	PRIMARY KEY (ID_Hewan, ID_Hasil_Panen),
+	FOREIGN KEY (ID_Hewan) REFERENCES hewan(ID_aset) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (ID_Hasil_Panen) REFERENCES hasil_panen(ID_produk) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE BIBIT_TANAMAN_DITANAM_DI_PETAK_SAWAH (
+	ID_Bibit_Tanaman VARCHAR(5),
+	ID_Petak_Sawah VARCHAR(5),
+	PRIMARY KEY (ID_Bibit_Tanaman, ID_Petak_Sawah),
+	FOREIGN KEY (ID_Bibit_Tanaman) REFERENCES bibit_tanaman(ID_aset) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (ID_Petak_Sawah) REFERENCES petak_sawah(ID_aset) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE HEWAN_MENGHASILKAN_PRODUK_HEWAN (
+	ID_Hewan VARCHAR(5),
+	ID_Produk_Hewan  VARCHAR(5),
+	PRIMARY KEY (ID_Hewan, ID_Produk_Hewan),
+	FOREIGN KEY (ID_Hewan) REFERENCES hewan(ID_aset) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (ID_Produk_Hewan) REFERENCES produk_hewan(ID_produk) ON UPDATE CASCADE ON DELETE CASCADE
+);
 
 CREATE TABLE produksi (
 	ID_alat_produksi VARCHAR(5),
@@ -250,7 +276,7 @@ CREATE TABLE pesanan (
 CREATE TABLE detail_pesanan (
 	ID_pesanan VARCHAR(5),
 	no_urut VARCHAR(20),
-	subtotal VARCHAR(15) NOT NULL,
+	subtotal INT NOT NULL,
 	jumlah INT NOT NULL,
 	ID_produk VARCHAR(5) NOT NULL,
 	PRIMARY KEY (ID_pesanan, no_urut),
@@ -268,4 +294,13 @@ CREATE TABLE histori_penjualan (
 	FOREIGN KEY (email) REFERENCES akun(email) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (ID_pesanan) REFERENCES pesanan(ID) ON UPDATE CASCADE ON DELETE CASCADE
 );
--- DEKORASI_MEMILIKI_HISTORI_PENJUALAN
+
+CREATE TABLE DEKORASI_MEMILIKI_HISTORI_PENJUALAN (
+	ID_Dekorasi VARCHAR(5),
+	email VARCHAR(50),
+	waktu_penjualan TIMESTAMP,
+	jumlah INT NOT NULL,
+	PRIMARY KEY (ID_Dekorasi, email, waktu_penjualan),
+	FOREIGN KEY (ID_Dekorasi) REFERENCES dekorasi(ID_aset) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (email, waktu_penjualan) REFERENCES histori_penjualan(email, waktu_penjualan) ON UPDATE CASCADE ON DELETE CASCADE
+);

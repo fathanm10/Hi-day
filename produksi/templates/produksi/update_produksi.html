@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/produksi/update_produksi.css' %}">
+{% endblock styles %}
+
+{% block body %}
+{% if data.role == 'admin' %}
+<h1>Update Produksi</h1>
+
+<form method="post">
+  {% csrf_token %}
+  <div>
+    <label for="makanan">Nama Produk Makanan: </label>
+    <input type="text" name="" id="" disabled value="{{ data.production.makanan }}">
+  </div>
+  <div>
+    <label for="alat">Alat Produksi: </label>
+    <input type="text" name="" id="" disabled value="{{ data.production.alat }}">
+  </div>
+  <div>
+    <label for="durasi">Durasi Produksi (dalam menit): </label>
+    <input type="number" name="durasi" id="durasi" required value="{{ data.production.durasi }}">
+  </div>
+  <div>
+    <label for="jumlah">Jumlah Produk yang Dihasilkan: </label>
+    <input type="number" name="jumlah" id="jumlah" required value="{{ data.production.jumlah }}">
+  </div>
+
+  <p>Daftar Bahan yang Dibutuhkan:</p>
+  <table class="list-bahan" name="list-bahan">
+    <tr>
+      <th>Bahan</th>
+      <th>Jumlah</th>
+    </tr>
+    {% for item in data.production.bahan %}
+      <tr>
+        <td>{{ item.nama }}</td>
+        <td>{{ item.jumlah }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+
+  <button type="submit">Update</button>
+</form>
+
+{% else %}
+<h1>ERROR</h1>
+<p>You must be an admin to access this page</p>
+{% endif %}
+{% endblock body %}
