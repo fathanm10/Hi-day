@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{% endblock styles %}
+
+{% block body %}
+<h1>Form {{ title }}</h1>
+<form method="post" class="ubah">
+    <div class="">
+        <label for="jumlah_koin">Jumlah koin:</label>
+        <input type="jumlah_koin" name="jumlah_koin" id="jumlah_koin" value='{{ jumlah_koin }}' readonly>
+    </div>
+    <div class="">
+        <label for="harga">Harga:</label>
+        <input type="harga" name="harga" id="harga">
+    </div>
+    <button type="submit">Ubah</button>
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-danger" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+</form>
+{% endblock body %}

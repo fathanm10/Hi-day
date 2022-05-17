@@ -41,7 +41,7 @@
             <a class="dropdown-item" href="#">Upgrade Lumbung</a>
             <div class="dropdown-divider"></div>
             {% endif %}
-            <a class="dropdown-item" href="#">List Transaksi Upgrade Lumbung</a>
+            <a class="dropdown-item" href="/lumbung/transaksi">List Transaksi Upgrade Lumbung</a>
           </div>
         </li>
         <li class="nav-item dropdown">
@@ -50,13 +50,12 @@
             Koin
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/paketkoin">List Paket Koin</a>
             {% if data.role == "admin" %}
             <a class="dropdown-item" href="#">Buat Paket Koin</a>
             <div class="dropdown-divider"></div>
             {% endif %}
-            <a class="dropdown-item" href="#">List Paket Koin</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">List Transaksi Pembelian Koin</a>
+            <a class="dropdown-item" href="/paketkoin/transaksi">List Transaksi Pembelian Koin</a>
           </div>
         </li>
         <li class="nav-item dropdown">
@@ -70,7 +69,7 @@
             <div class="dropdown-divider"></div>
             {% endif %}
 
-            <a class="dropdown-item" href="#">List Aset</a>
+            <a class="dropdown-item" href="/aset">List Aset</a>
             <div class="dropdown-divider"></div>
             {% if data.role == "admin" %}
             <a class="dropdown-item" href="#">Buat Hewan Menghasilkan Produk Hewan</a>
@@ -93,14 +92,14 @@
             Koleksi Aset
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">List Koleksi Aset</a>
+            <a class="dropdown-item" href="/aset/koleksi">List Koleksi Aset</a>
             <div class="dropdown-divider"></div>
             {% if data.role == "user" %}
-            <a class="dropdown-item" href="#">Buat Transaksi Pembelian Aset</a>
+            <a class="dropdown-item" href="/aset/transaksi/create">Buat Transaksi Pembelian Aset</a>
             <div class="dropdown-divider"></div>
             {% endif %}
 
-            <a class="dropdown-item" href="#">List Transaksi Pembelian Aset</a>
+            <a class="dropdown-item" href="/aset/transaksi">List Transaksi Pembelian Aset</a>
           </div>
         </li>
         <li class="nav-item dropdown">
@@ -147,7 +146,7 @@
             <div class="dropdown-divider"></div>
             {% endif %}
 
-            <a class="dropdown-item" href="#">List Histori Produksi Tanaman</a>
+            <a class="dropdown-item" href="/prosesproduksi/histori_tanaman">List Histori Produksi Tanaman</a>
             <div class="dropdown-divider"></div>
 
             {% if data.role == "user" %}
@@ -155,7 +154,7 @@
             <div class="dropdown-divider"></div>
             {% endif %}
 
-            <a class="dropdown-item" href="#">List Histori Produksi Makanan</a>
+            <a class="dropdown-item" href="/prosesproduksi/histori_makanan  ">List Histori Produksi Makanan</a>
           </div>
         </li>
         <li class="nav-item dropdown">

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{% endblock styles %}
+
+{% block body %}
+<h1>{{ title }}</h1>
+{% if paketkoin %}
+{% for paket in paketkoin %}
+<div class="d-flex justify-content-between">
+    <p>No: {{ forloop.counter }}</p>
+    <p>Jumlah koin: {{ paket.jumlah_koin }}</p>
+    <p>Harga: {{ paket.harga }}</p>
+    {% if data|get_item:'role' == 'user' %}
+    <p><a href="{% url 'paketkoin:beli' paket.jumlah_koin %}">Beli</a></p>
+    {% endif %}
+    {% if data|get_item:'role' == 'admin' %}
+    <p><a href="{% url 'paketkoin:edit' paket.jumlah_koin 'update' %}">Update</a></p>
+    <p><a href="{% url 'paketkoin:edit' paket.jumlah_koin 'delete' %}">Delete</a></p>
+    {% endif %}
+</div>
+{% endfor %}
+{% endif %}
+
+{% endblock body %}

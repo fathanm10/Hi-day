@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{% endblock styles %}
+
+{% block body %}
+<h1>{{ title }}</h1>
+
+
+<table>
+  <tr>
+    <th>No.</th>
+    {% if data|get_item:'role' == 'admin' %}
+    <th>Email</th>
+    {% endif %}
+    <th>Waktu Awal</th>
+    <th>Waktu Selesai</th>
+    <th>Jumlah</th>
+    <th>XP</th>
+    <th>Produk Makanan</th>
+    <th>Alat Produksi</th>
+  </tr>
+  {% if daftarhistory %}
+  {% for history in daftarhistory %}
+  <tr>
+    <td>{{ forloop.counter }}</td>
+    {% if data|get_item:'role' == 'admin' %}
+    <td>{{ history.email }}</td>
+    {% endif %}
+    <td>{{ history.waktu_awal }}</td>
+    <td>{{ history.waktu_selesai }}</td>
+    <td>{{ history.jumlah }}</td>
+    <td>{{ history.xp }}</td>
+    <td>{{ history.makanan }}</td>
+    <td>{{ history.alat }}</td>
+  </tr>
+  {% endfor %}
+  {% endif %}
+</table>
+
+
+{% endblock body %}

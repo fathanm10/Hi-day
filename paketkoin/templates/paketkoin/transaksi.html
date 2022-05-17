@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{% endblock styles %}
+
+{% block body %}
+<h1>{{ title }}</h1>
+{% if daftartransaksi %}
+{% for transaksi in daftartransaksi %}
+<div class="d-flex justify-content-between">
+    <p>No: {{ forloop.counter }}</p>
+    <p>Email: {{ transaksi.email }}</p>
+    <p>Waktu: {{ transaksi.waktu }}</p>
+    <p>Jumlah: {{ transaksi.jumlah }}</p>
+    <p>Cara Pembayaran: {{ transaksi.cara_pembayaran }}</p>
+    <p>Paket Koin: {{ transaksi.paket_koin }}</p>
+    <p>Total Biaya: {{ transaksi.total_biaya }}</p>
+</div>
+{% endfor %}
+{% endif %}
+{% endblock body %}
