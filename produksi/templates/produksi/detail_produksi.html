@@ -2,30 +2,50 @@
 {% load static %}
 
 {% block styles %}
+<link rel="stylesheet" href="{% static 'css/produksi/produksi.css' %}">
 <link rel="stylesheet" href="{% static 'css/produksi/detail_produksi.css' %}">
 {% endblock styles %}
 
 {% block body %}
-<h1>Detail Produksi</h1>
+<div class="main">
+  <h1>{{ data.production.nama }}</h1>
 
-<p>Nama Produk Makanan : {{ data.production.nama }}</p>
-<p>Alat Produksi : {{ data.production.alat }}</p>
-<p>Durasi Produksi (dalam menit) : {{ data.production.durasi }}</p>
-<p>Jumlah Produk yang Dihasilkan : {{ data.production.jumlah }}</p>
+  <div class="">
+    <table class="table table-bordered">
+      <tr>
+        <td>Nama Produk Makanan</td>
+        <td>{{ data.production.nama }}</td>
+      </tr>
+      <tr>
+        <td>Alat Produksi</td>
+        <td>{{ data.production.alat }}</td>
+      </tr>
+      <tr>
+        <td>Durasi Produksi (dalam menit)</td>
+        <td>{{ data.production.durasi }}</td>
+      </tr>
+      <tr>
+        <td>Jumlah Produk yang Dihasilkan</td>
+        <td>{{ data.production.jumlah }}</td>
+      </tr>
+    </table>
+  </div>
 
-<p>Daftar Bahan yang Dibutuhkan: </p>
-<table>
-  <tr>
-    <th>Nama</th>
-    <th>Jumlah</th>
-  </tr>
+  <div class="">
+    <p>Daftar Bahan yang Dibutuhkan: </p>
+    <table class="table table-bordered">
+      <tr>
+        <th>Nama</th>
+        <th>Jumlah</th>
+      </tr>
 
-  {% for item in data.production.bahan %}
-  <tr>
-    <td>{{ item.nama }}</td>
-    <td>{{ item.jumlah }}</td>
-  </tr>
-  {% endfor %}
-</table>
-
+      {% for item in data.production.bahan %}
+      <tr>
+        <td>{{ item.nama }}</td>
+        <td>{{ item.jumlah }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
 {% endblock body %}

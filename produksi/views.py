@@ -90,7 +90,7 @@ def detail_produksi(request, pk):
 
     data['production'] = production_data
 
-    return render(request, 'produksi/detail_produksi.html', {'title': "Detail Produksi", 'data': data})
+    return render(request, 'produksi/detail_produksi.html', {'title': production_data['nama'], 'data': data})
 
 
 def buat_produksi(request):
@@ -230,7 +230,7 @@ def update_produksi(request, pk):
     }
 
     if request.method != "POST":
-        return render(request, 'produksi/update_produksi.html', {'title': "Update Produksi", 'data': data})
+        return render(request, 'produksi/update_produksi.html', {'title': ("Update Produksi " + data['production']['makanan']), 'data': data})
 
     body = request.POST
     durasi = f"00:{body['durasi']}:00"
