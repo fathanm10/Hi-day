@@ -1,8 +1,11 @@
 from django.shortcuts import redirect, render
 from django.template.defaulttags import register
+from django.views.decorators.csrf import csrf_exempt
+
 from hi_day.utils import get_query
 from hi_day.auth import is_authenticated, get_role, get_session_data
 
+from datetime import datetime
 
 @register.filter
 def get_item(dictionary, key):
@@ -212,3 +215,49 @@ def transaksi(request):
         'data': data,
         'daftartransaksi': daftartransaksi
     })
+
+@csrf_exempt
+def upgrade(request):
+    data = get_session_data(request)
+    user_data = {}
+    if data['role'] == 'user':
+        result = get_query(f'''
+            SELECT * FROM lumbung
+            WHERE email='{request.session['email']}';
+        ''')
+        print(result[0])
+        user_data['email'] = result[0][0]
+        user_data['level'] = result[0][1]
+        user_data['new_level'] = int(result[0][1])+1
+        user_data['cap'] = result[0][2]
+        user_data['new_cap'] = int(result[0][2])+50
+        user_data['total'] = result[0][3]
+    data['user'] = user_data
+
+    if request.method != "POST":
+        return render(request, 'lumbung/upgrade.html', {
+            'title': "Upgrade Lumbung",
+            'data': data,
+        })
+
+    level = request.POST["new_level"]
+    cap = request.POST["new_cap"]
+    biaya = request.POST["biaya"]
+    time = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+
+    result_lumbung = get_query(
+        f"""
+        UPDATE LUMBUNG
+        SET level = {level}, kapasitas_maksimum = {cap}
+        WHERE email = '{user_data['email']}'
+        """
+    )
+
+    result_transaksi = get_query(
+        f"""
+        INSERT INTO TRANSAKSI_UPGRADE_LUMBUNG VALUES
+        ('{user_data['email']}','{time}')
+        """
+    )
+
+    return redirect("/lumbung/upgrade")

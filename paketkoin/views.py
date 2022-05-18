@@ -43,7 +43,7 @@ def buat(request):
     jumlah_koin = request.POST["jumlah_koin"]
     harga = request.POST["harga"]
 
-    if (jumlah_beli == "") or (harga == ""):
+    if (jumlah_koin == "") or (harga == ""):
         messages.error(request, "Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu")
         return redirect("/paketkoin/buat")
 
@@ -58,7 +58,7 @@ def buat(request):
     result = get_query(
         f"""
         INSERT INTO paket_koin VALUES
-        ('{jumlah_koin}','{harga}');
+        ({jumlah_koin},{harga});
         """
     )
 
@@ -72,7 +72,7 @@ def edit(request, jumlah_koin, cmd):
             get_query(
                 f"""
                 DELETE FROM paket_koin
-                WHERE jumlah_koin = '{jumlah_koin}'
+                WHERE jumlah_koin = {jumlah_koin}
                 """
             )
             return redirect("/paketkoin")
@@ -192,7 +192,7 @@ def beli(request, jumlah_koin):
     result = get_query(
         f"""
             INSERT INTO TRANSAKSI_PEMBELIAN_KOIN VALUES
-            ('{request.session['email']}', '{datetime.datetime.now()}', '{jumlah_beli}', '{cara_bayar}', '{paket}', 0)
+            ('{request.session['email']}', '{datetime.datetime.now()}', {jumlah_beli}, '{cara_bayar}', {paket}, 0)
         """
     )
 
