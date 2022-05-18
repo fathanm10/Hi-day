@@ -240,15 +240,15 @@ def upgrade(request):
             'data': data,
         })
 
-    level = request.POST["new_level"]
-    cap = request.POST["new_cap"]
+    level = user_data["new_level"]
+    cap = user_data["new_cap"]
     biaya = request.POST["biaya"]
-    time = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+    time = datetime.now()
 
     result_lumbung = get_query(
         f"""
         UPDATE LUMBUNG
-        SET level = {level}, kapasitas_maksimum = {cap}
+        SET level = {level}, kapasitas_max = {cap}
         WHERE email = '{user_data['email']}'
         """
     )
