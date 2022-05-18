@@ -6,21 +6,31 @@
 
 {% block body %}
 <h1>{{ title }}</h1>
-{% if paketkoin %}
-{% for paket in paketkoin %}
-<div class="d-flex justify-content-between">
-    <p>No: {{ forloop.counter }}</p>
-    <p>Jumlah koin: {{ paket.jumlah_koin }}</p>
-    <p>Harga: {{ paket.harga }}</p>
-    {% if data|get_item:'role' == 'user' %}
-    <p><a href="{% url 'paketkoin:beli' paket.jumlah_koin %}">Beli</a></p>
-    {% endif %}
-    {% if data|get_item:'role' == 'admin' %}
-    <p><a href="{% url 'paketkoin:edit' paket.jumlah_koin 'update' %}">Update</a></p>
-    <p><a href="{% url 'paketkoin:edit' paket.jumlah_koin 'delete' %}">Delete</a></p>
-    {% endif %}
-</div>
-{% endfor %}
-{% endif %}
 
+<table>
+    <tr>
+        <th>No.</th>
+        <th>Jumlah Koin</th>
+        <th>Harga</th>
+        <th>Action</th>
+    </tr>
+    {% if paketkoin %}
+        {% for paket in paketkoin %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ paket.jumlah_koin }}</td>
+                <td>{{ paket.harga }}</td>
+                <td>
+                    {% if data|get_item:'role' == 'user' %}
+                        <p><a href="{% url 'paketkoin:beli' paket.jumlah_koin %}">Beli</a></p>
+                    {% endif %}
+                    {% if data|get_item:'role' == 'admin' %}
+                        <p><a href="{% url 'paketkoin:edit' paket.jumlah_koin 'update' %}">Update</a></p>
+                        <p><a href="{% url 'paketkoin:edit' paket.jumlah_koin 'delete' %}">Delete</a></p>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+</table>
 {% endblock body %}

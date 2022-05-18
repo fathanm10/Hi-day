@@ -18,14 +18,24 @@ def histori_tanaman(request):
     if data['role'] == 'admin':
         daftarhistory = get_query(
             f"""
-            SELECT * from HISTORI_TANAMAN NATURAL JOIN HISTORI_PRODUKSI
+            SELECT HT.email, HT.waktu_awal, HP.waktu_selesai, HP.jumlah, HP.xp, A.nama 
+            from HISTORI_TANAMAN HT
+            INNER JOIN HISTORI_PRODUKSI HP
+            ON (HT.email, HT.waktu_awal) = (HP.email, HP.waktu_awal)
+            INNER JOIN ASET A
+            ON HT.id_bibit_tanaman = A.id
             """
         )
     elif data['role'] == 'user':
         daftarhistory = get_query(
             f"""
-            SELECT * from HISTORI_TANAMAN NATURAL JOIN HISTORI_PRODUKSI
-            WHERE email = '{request.session['email']}'
+            SELECT HT.email, HT.waktu_awal, HP.waktu_selesai, HP.jumlah, HP.xp, A.nama 
+            from HISTORI_TANAMAN HT
+            INNER JOIN HISTORI_PRODUKSI HP
+            ON (HT.email, HT.waktu_awal) = (HP.email, HP.waktu_awal)
+            INNER JOIN ASET A
+            ON HT.id_bibit_tanaman = A.id
+            WHERE HT.email = '{request.session['email']}'
             """
         )
     print(daftarhistory)

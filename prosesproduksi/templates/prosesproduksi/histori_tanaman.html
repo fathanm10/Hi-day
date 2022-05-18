@@ -6,19 +6,33 @@
 
 {% block body %}
 <h1>{{ title }}</h1>
-{% if daftarhistory %}
-{% for history in daftarhistory %}
-<div class="d-flex justify-content-between">
-    <p>No: {{ forloop.counter }}</p>
-    {% if data|get_item:'role' == 'admin' %}
-    <p>Email Pengguna: {{ history.email }}</p>
+
+<table>
+    <tr>
+        <th>No.</th>
+        {% if data|get_item:'role' == 'admin' %}
+            <th>Email</th>
+        {% endif %}
+        <th>Waktu Awal</th>
+        <th>Waktu Selesai</th>
+        <th>Jumlah</th>
+        <th>XP</th>
+        <th>Bibit Tanaman</th>
+    </tr>
+    {% if daftarhistory %}
+        {% for history in daftarhistory %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                {% if data|get_item:'role' == 'admin' %}
+                    <td>{{ history.email }}</td>
+                {% endif %}
+                <td>{{ history.waktu_awal }}</td>
+                <td>{{ history.waktu_selesai }}</td>
+                <td>{{ history.jumlah }}</td>
+                <td>{{ history.xp }}</td>
+                <td>{{ history.nama }}</td>
+            </tr>
+        {% endfor %}
     {% endif %}
-    <p>Waktu Awal: {{ history.waktu_awal }}</p>
-    <p>Waktu Selesai: {{ history.waktu_selesai }}</p>
-    <p>Jumlah: {{ history.jumlah }}</p>
-    <p>XP:</p>
-    <p>Bibit Tanaman:</p>
-</div>
-{% endfor %}
-{% endif %}
+</table>
 {% endblock body %}

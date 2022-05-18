@@ -5,18 +5,28 @@
 {% endblock styles %}
 
 {% block body %}
-<h1>{{ title }}</h1>
-{% if daftartransaksi %}
-{% for transaksi in daftartransaksi %}
-<div class="d-flex justify-content-between">
-    <p>No: {{ forloop.counter }}</p>
-    <p>Email: {{ transaksi.email }}</p>
-    <p>Waktu: {{ transaksi.waktu }}</p>
-    <p>Jumlah: {{ transaksi.jumlah }}</p>
-    <p>Cara Pembayaran: {{ transaksi.cara_pembayaran }}</p>
-    <p>Paket Koin: {{ transaksi.paket_koin }}</p>
-    <p>Total Biaya: {{ transaksi.total_biaya }}</p>
-</div>
-{% endfor %}
-{% endif %}
+<table>
+    <tr>
+        <th>No.</th>
+        <th>Email</th>
+        <th>Waktu</th>
+        <th>Jumlah</th>
+        <th>Cara Pembayaran</th>
+        <th>Paket Koin</th>
+        <th>Total Biaya</th>
+    </tr>
+    {% if daftartransaksi %}
+        {% for transaksi in daftartransaksi %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ transaksi.email }}</td>
+                <td>{{ transaksi.waktu }}</td>
+                <td>{{ transaksi.jumlah }}</td>
+                <td>{{ transaksi.cara_pembayaran }}</td>
+                <td>{{ transaksi.paket_koin }}</td>
+                <td>{{ transaksi.total_biaya }}</td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+</table>
 {% endblock body %}
