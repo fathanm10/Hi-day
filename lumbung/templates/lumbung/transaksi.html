@@ -6,15 +6,24 @@
 
 {% block body %}
 <h1>{{ title }}</h1>
-{% if daftartransaksi %}
-{% for transaksi in daftartransaksi %}
-<div class="d-flex justify-content-between">
-    <p>No: {{ forloop.counter }}</p>
-    {% if data|get_item:'role' == 'admin' %}
-    <p>Email Pengguna: {{ transaksi.email }}</p>
+<table class="mx-auto table table-bordered">
+    <tr>
+        <th>No.</th>
+        {% if data|get_item:'role' == 'admin' %}
+            <th>Email Pengguna</th>
+        {% endif %}
+        <th>Waktu Upgrade</th>
+    </tr>
+    {% if daftartransaksi %}
+        {% for transaksi in daftartransaksi %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                {% if data|get_item:'role' == 'admin' %}
+                    <td>{{ transaksi.email }}</td>
+                {% endif %}
+                <td>{{ transaksi.waktu }}</td>
+            </tr>
+        {% endfor %}
     {% endif %}
-    <p>Waktu Upgrade: {{ transaksi.waktu }}</p>
-</div>
-{% endfor %}
-{% endif %}
+</table>
 {% endblock body %}
