@@ -26,3 +26,28 @@ a:hover {
 button:hover {
   background-color: #cbd5e1;
 }
+
+.alert {
+  display: flex;
+  align-items: center;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  gap: 0.25rem;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  position: fixed;
+  bottom: 2rem;
+  text-align: center;
+  justify-content: center;
+  width: fit-content;
+  border: 1px;
+  font-weight: 500;
+}
+
+button.close {
+  background-color: transparent;
+  border: 0;
+  padding: 0;
+}

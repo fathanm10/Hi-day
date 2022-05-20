@@ -33,12 +33,12 @@
   <div class="">
     <table class="table table-bordered table-striped">
       <tr>
-        <th class="align-middle">No.</th>
-        <th class="align-middle">Produk Makanan</th>
-        <th class="align-middle">Alat Produksi</th>
-        <th class="align-middle">Durasi<br>Produksi</th>
-        <th class="align-middle">Jumlah Produk<br>Hasil Produksi</th>
-        <th class="align-middle">Action</th>
+        <th class="text-center align-middle">No.</th>
+        <th class="text-center align-middle">Produk Makanan</th>
+        <th class="text-center align-middle">Alat Produksi</th>
+        <th class="text-center align-middle">Durasi<br>Produksi</th>
+        <th class="text-center align-middle">Jumlah Produk<br>Hasil Produksi</th>
+        <th class="align-middle text-center">Action</th>
       </tr>
 
       {% for item in data.product %}
@@ -50,10 +50,10 @@
         <td class="text-center align-middle">{{ item.jumlah }}</td>
 
         <td>
-          <button><a href="/produksi/detail-produksi/{{ item.id }}">Detail</a></button>
+          <a href="/produksi/detail-produksi/{{ item.id }}"><button>Detail</button></a>
           {% if data.role == 'admin' %}
-          <button><a href="/produksi/update-produksi/{{ item.id }}">Update</a></button>
-          <button><a href="/produksi/delete-produksi/{{ item.id }}">Delete</a></button>
+          <a href="/produksi/update-produksi/{{ item.id }}"><button>Update</button></a>
+          <a href="/produksi/delete-produksi/{{ item.id }}"><button>Delete</button></a>
           {% endif %}
         </td>
       </tr>

@@ -245,7 +245,7 @@ def update_produksi(request, pk):
     return redirect("/produksi/list-produksi")
 
 
-def delete_produksi(request):
+def delete_produksi(request, pk):
     if not is_authenticated(request):
         return redirect("/auth/login")
 
@@ -253,3 +253,5 @@ def delete_produksi(request):
     data['role'] = get_role(request.session['email'],
                             request.session['password'])
     data['user'] = get_session_data(request)
+
+    

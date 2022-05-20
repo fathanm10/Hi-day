@@ -116,6 +116,7 @@ def add_product(request):
     if next != None and next != "None":
         return redirect(next)
     else:
+        messages.success(request, 'Produk berhasil ditambah')
         return redirect("/produk/list-produk")
 
 
@@ -159,6 +160,7 @@ def update_product(request, pk):
     if next != None and next != "None":
         return redirect(next)
     else:
+        messages.success(request, 'Produk berhasil diupdate')
         return redirect("/produk/list-produk")
 
 
@@ -175,8 +177,10 @@ def delete_product(request, pk):
         return redirect("/produk/list-produk")
 
     product_data = get_query(f'''
-            SELECT LP.ID_produk
-            FROM lumbung_memiliki_produk AS LP
+            SELECT P.ID
+            FROM produk P
+            FULL JOIN lumbung_memiliki_produk LP
+            ON LP.ID_produk = P.ID
             FULL JOIN detail_pesanan AS DP
             ON LP.ID_produk = DP.ID_produk
             FULL JOIN produk_dibutuhkan_oleh_produk_makanan AS PPMA

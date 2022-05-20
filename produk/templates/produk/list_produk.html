@@ -33,14 +33,14 @@
   <div class="">
     <table class="table table-bordered table-striped">
       <tr>
-        <th>No.</th>
-        <th>Jenis</th>
-        <th>Nama</th>
-        <th>Harga Jual</th>
-        <th>Sifat</th>
+        <th class="text-center align-middle">No.</th>
+        <th class="text-center align-middle">Jenis</th>
+        <th class="text-center align-middle">Nama</th>
+        <th class="text-center align-middle">Harga Jual</th>
+        <th class="text-center align-middle">Sifat</th>
 
         {% if data.role == 'admin' %}
-        <th>Action</th>
+        <th class="text-center align-middle">Action</th>
         {% endif %}
       </tr>
 
@@ -54,8 +54,8 @@
 
         {% if data.role == 'admin' %}
         <td>
-          <button><a href="/produk/update-produk/{{ item.id }}">Update</a></button>
-          <button><a href="/produk/delete-produk/{{ item.id }}">Delete</a></button>
+          <a href="/produk/update-produk/{{ item.id }}"><button>Update</button></a>
+          <a href="/produk/delete-produk/{{ item.id }}"><button>Delete</button></a>
         </td>
         {% endif %}
       </tr>
