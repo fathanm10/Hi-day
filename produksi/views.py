@@ -254,4 +254,26 @@ def delete_produksi(request, pk):
                             request.session['password'])
     data['user'] = get_session_data(request)
 
-    
+    if data['role'] != 'admin':
+        return redirect("/produk/list-produk")
+
+    produk_makanan = pk.split("-")[0]
+    alat_produksi = pk.split("-")[1]
+
+    history_data = get_query(f'''
+        SELECT id_produk_makanan, id_alat_produksi
+        FROM histori_produksi_makanan
+        WHERE id_produk_makanan='{produk_makanan}' AND id_alat_produksi='{alat_produksi}';
+    ''')
+    # print(history_data)
+
+    if(len(history_data) != 0):
+        messages.error(request, 'Produksi tidak bisa dihapus')
+    else:
+        get_query(f'''
+            DELETE FROM produksi CASCADE
+            WHERE id_produk_makanan='{produk_makanan}' AND id_alat_produksi='{alat_produksi}';
+        ''')
+        messages.success(request, 'Produksi berhasil dihapus')
+
+    return redirect("/produksi/list-produksi")

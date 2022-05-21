@@ -9,7 +9,7 @@
 {% block body %}
 {% if data.role == 'admin' %}
 <div class="main">
-  <h1>Update Produk</h1>
+  <h1>Update Produk {{ data.product.nama }}</h1>
 
   <form method="post">
     {% csrf_token %}

@@ -2,42 +2,44 @@
 {% load static %}
 
 {% block styles %}
+<link rel="stylesheet" href="{% static 'css/histori/histori_makanan.css' %}">
 {% endblock styles %}
 
 {% block body %}
-<h1>{{ title }}</h1>
-
-
-<table>
-  <tr>
-    <th>No.</th>
-    {% if data|get_item:'role' == 'admin' %}
-    <th>Email</th>
-    {% endif %}
-    <th>Waktu Awal</th>
-    <th>Waktu Selesai</th>
-    <th>Jumlah</th>
-    <th>XP</th>
-    <th>Produk Makanan</th>
-    <th>Alat Produksi</th>
-  </tr>
-  {% if daftarhistory %}
-  {% for history in daftarhistory %}
-  <tr>
-    <td>{{ forloop.counter }}</td>
-    {% if data|get_item:'role' == 'admin' %}
-    <td>{{ history.email }}</td>
-    {% endif %}
-    <td>{{ history.waktu_awal }}</td>
-    <td>{{ history.waktu_selesai }}</td>
-    <td>{{ history.jumlah }}</td>
-    <td>{{ history.xp }}</td>
-    <td>{{ history.makanan }}</td>
-    <td>{{ history.alat }}</td>
-  </tr>
-  {% endfor %}
-  {% endif %}
-</table>
-
+<div class="main">
+  <h1>{{ title }}</h1>
+  <div class="">
+    <table class="table table-bordered table-striped">
+      <tr>
+        <th class="align-middle text-center">No.</th>
+        {% if data|get_item:'role' == 'admin' %}
+        <th class="align-middle text-center">Email</th>
+        {% endif %}
+        <th class="align-middle text-center">Waktu Awal</th>
+        <th class="align-middle text-center">Waktu Selesai</th>
+        <th class="align-middle text-center">Jumlah</th>
+        <th class="align-middle text-center">XP</th>
+        <th class="align-middle text-center">Produk Makanan</th>
+        <th class="align-middle text-center">Alat Produksi</th>
+      </tr>
+      {% if daftarhistory %}
+      {% for history in daftarhistory %}
+      <tr>
+        <td class="align-middle text-center">{{ forloop.counter }}</td>
+        {% if data|get_item:'role' == 'admin' %}
+        <td class="align-middle">{{ history.email }}</td>
+        {% endif %}
+        <td class="align-middle text-center">{{ history.waktu_awal }}</td>
+        <td class="align-middle text-center">{{ history.waktu_selesai }}</td>
+        <td class="align-middle text-center">{{ history.jumlah }}</td>
+        <td class="align-middle text-center">{{ history.xp }}</td>
+        <td class="align-middle text-center">{{ history.makanan }}</td>
+        <td class="align-middle text-center">{{ history.alat }}</td>
+      </tr>
+      {% endfor %}
+      {% endif %}
+    </table>
+  </div>
+</div>
 
 {% endblock body %}

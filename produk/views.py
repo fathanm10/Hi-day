@@ -50,8 +50,6 @@ def list_produk(request):
 
 
 def add_product(request):
-    next = request.GET.get("next")
-
     data = {}
     data['role'] = get_role(request.session['email'],
                             request.session['password'])
@@ -72,10 +70,10 @@ def add_product(request):
     id = ""
     if (jenis == "panen"):
         current_id = get_query('''
-            SELECT COUNT(*)
+            SELECT MAX(id_produk)
             FROM hasil_panen;
         ''')
-        id = "HP" + str(current_id[0][0] + 1)
+        id = "HP" + str(int(current_id[0][0][2:]) + 1)
 
         get_query(f'''
             INSERT INTO produk VALUES
@@ -86,10 +84,10 @@ def add_product(request):
         ''')
     elif (jenis == "hewan"):
         current_id = get_query('''
-            SELECT COUNT(*)
+            SELECT MAX(id_produk)
             FROM produk_hewan;
         ''')
-        id = "PH" + str(current_id[0][0] + 1)
+        id = "PH" + str(int(current_id[0][0][2:]) + 1)
 
         get_query(f'''
             INSERT INTO produk VALUES
@@ -100,10 +98,10 @@ def add_product(request):
         ''')
     else:
         current_id = get_query('''
-            SELECT COUNT(*)
+            SELECT MAX(id_produk)
             FROM produk_makanan;
         ''')
-        id = "PM" + str(current_id[0][0] + 1)
+        id = "PM" + str(int(current_id[0][0][2:]) + 1)
 
         get_query(f'''
             INSERT INTO produk VALUES
@@ -113,16 +111,12 @@ def add_product(request):
             ('{id}');
         ''')
 
-    if next != None and next != "None":
-        return redirect(next)
-    else:
-        messages.success(request, 'Produk berhasil ditambah')
-        return redirect("/produk/list-produk")
+    # Tidak perlu cek duplikat key, jadi langsung sukses
+    messages.success(request, 'Produk berhasil ditambah')
+    return redirect("/produk/list-produk")
 
 
 def update_product(request, pk):
-    next = request.GET.get("next")
-
     data = {}
     data['role'] = get_role(request.session['email'],
                             request.session['password'])
@@ -144,7 +138,7 @@ def update_product(request, pk):
     if request.method != "POST":
         if not is_authenticated(request):
             return redirect("/auth/login")
-        return render(request, 'produk/update_produk.html', {'title': "Update Produk", 'data': data})
+        return render(request, 'produk/update_produk.html', {'title': "Update " + data['product']['nama'], 'data': data})
 
     body = request.POST
 
@@ -157,11 +151,8 @@ def update_product(request, pk):
         WHERE ID='{data['product']['id']}';
     ''')
 
-    if next != None and next != "None":
-        return redirect(next)
-    else:
-        messages.success(request, 'Produk berhasil diupdate')
-        return redirect("/produk/list-produk")
+    messages.success(request, 'Produk berhasil diupdate')
+    return redirect("/produk/list-produk")
 
 
 def delete_product(request, pk):
@@ -176,28 +167,69 @@ def delete_product(request, pk):
     if data['role'] != 'admin':
         return redirect("/produk/list-produk")
 
-    product_data = get_query(f'''
-            SELECT P.ID
-            FROM produk P
-            FULL JOIN lumbung_memiliki_produk LP
-            ON LP.ID_produk = P.ID
-            FULL JOIN detail_pesanan AS DP
-            ON LP.ID_produk = DP.ID_produk
-            FULL JOIN produk_dibutuhkan_oleh_produk_makanan AS PPMA
-            ON PPMA.ID_produk_makanan = LP.ID_produk
-            FULL JOIN produk_dibutuhkan_oleh_produk_makanan AS PPMB
-            ON PPMB.ID_produk = LP.ID_produk
-            FULL JOIN produksi AS PR
-            ON PR.ID_produk_makanan = LP.ID_produk
-            FULL JOIN HEWAN_MENGHASILKAN_PRODUK_HEWAN AS HPH
-            ON HPH.ID_Produk_Hewan = LP.ID_produk
-            FULL JOIN bibit_tanaman_menghasilkan_hasil_panen AS BTHP
-            ON BTHP.ID_Hasil_Panen = LP.ID_produk
-            WHERE LP.ID_produk='{pk}';
-    ''')
-    print(product_data)
+    product_data = 0
 
-    if (len(product_data) != 0):
+    produk_pesanan = get_query(f'''
+        SELECT P.ID
+        FROM produk P
+        INNER JOIN detail_pesanan DP
+        ON DP.ID_produk = P.ID
+        WHERE P.ID='{pk}';
+    ''')
+    # print(produk_pesanan)
+
+    produk_lumbung = get_query(f'''
+        SELECT P.ID
+        FROM produk P
+        INNER JOIN lumbung_memiliki_produk LP
+        ON LP.ID_produk = P.ID
+        WHERE P.ID='{pk}';
+    ''')
+    # print(produk_lumbung)
+
+    produk_makanan = get_query(f'''
+        SELECT P.ID
+        FROM produk P
+        INNER JOIN produk_dibutuhkan_oleh_produk_makanan PPM
+        ON PPM.ID_produk = P.ID
+        WHERE P.ID='{pk}';
+    ''')
+    # print(produk_makanan)
+
+    produk_produksi = get_query(f'''
+        SELECT P.ID
+        FROM produk P
+        INNER JOIN produksi AS PR
+        ON PR.ID_produk_makanan = P.ID
+        WHERE P.ID='{pk}';
+    ''')
+    # print(produk_produksi)
+
+    produk_hewan = get_query(f'''
+        SELECT P.ID
+        FROM produk P
+        INNER JOIN hewan_menghasilkan_produk_hewan AS H
+        ON H.ID_Produk_Hewan = P.ID
+        WHERE P.ID='{pk}';
+    ''')
+    # print(produk_hewan)
+
+    produk_panen = get_query(f'''
+        SELECT P.ID
+        FROM produk P
+        INNER JOIN bibit_tanaman_menghasilkan_hasil_panen AS BT
+        ON BT.ID_Hasil_Panen = P.ID
+        WHERE P.ID='{pk}';
+    ''')
+    # print(produk_panen)
+
+    product_data += len(produk_pesanan) + \
+        len(produk_lumbung) + len(produk_makanan) + \
+        len(produk_produksi) + len(produk_hewan) + len(produk_panen)
+
+    # print(product_data)
+
+    if (product_data != 0):
         messages.error(request, 'Produk tidak bisa dihapus')
     else:
         get_query(f'''
