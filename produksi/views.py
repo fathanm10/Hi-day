@@ -94,8 +94,6 @@ def detail_produksi(request, pk):
 
 
 def buat_produksi(request):
-    next = request.GET.get("add")
-
     data = {}
     data['role'] = get_role(request.session['email'],
                             request.session['password'])
