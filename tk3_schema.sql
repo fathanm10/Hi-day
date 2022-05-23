@@ -304,3 +304,22 @@ CREATE TABLE DEKORASI_MEMILIKI_HISTORI_PENJUALAN (
 	FOREIGN KEY (ID_Dekorasi) REFERENCES dekorasi(ID_aset) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (email, waktu_penjualan) REFERENCES histori_penjualan(email, waktu_penjualan) ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+CREATE OR REPLACE FUNCTION add_lumbung_dan_koleksi_aset()
+RETURNS trigger AS
+$$
+DECLARE
+email_baru VARCHAR(50);
+BEGIN
+INSERT INTO lumbung VALUES (NEW.email, 1, 0, 0);
+
+INSERT INTO koleksi_aset VALUES (NEW.email);
+RETURN NEW;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER trigger_add_lumbung_dan_koleksi_aset
+AFTER INSERT ON pengguna
+FOR EACH ROW
+EXECUTE PROCEDURE add_lumbung_dan_koleksi_aset();
