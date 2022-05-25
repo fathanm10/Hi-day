@@ -75,7 +75,12 @@ def produksi_tanaman(request):
         INSERT INTO HISTORI_PRODUKSI VALUES
         ('{data['email']}','{time}','{time}','{jumlah}','{xp}')
     ''')
+    print(result)
 
+    result = get_query(f'''
+        INSERT INTO HISTORI_TANAMAN VALUES
+        ('{data['email']}','{time}','{bibit['id_aset']}')
+    ''')
     return redirect("/prosesproduksi/histori_tanaman")
 
 

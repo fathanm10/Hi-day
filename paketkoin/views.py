@@ -61,7 +61,6 @@ def buat(request):
         ({jumlah_koin},{harga});
         """
     )
-
     return redirect("/paketkoin")
 
 @csrf_exempt
@@ -192,8 +191,8 @@ def beli(request, jumlah_koin):
     result = get_query(
         f"""
             INSERT INTO TRANSAKSI_PEMBELIAN_KOIN VALUES
-            ('{request.session['email']}', '{datetime.datetime.now()}', {jumlah_beli}, '{cara_bayar}', {paket}, 0)
+            ('{request.session['email']}', '{datetime.datetime.now()}', {jumlah_beli}, '{cara_bayar}', {paket}, {harga}*{jumlah_beli})
         """
     )
-
+    print(result)
     return redirect("/paketkoin")
