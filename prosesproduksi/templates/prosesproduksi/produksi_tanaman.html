@@ -8,10 +8,10 @@
 <h1>Form {{ title }}</h1>
 <form method="post" class="buat">
     <div class="">
-        <select name="bibit" id="bibit" onchange="updateJumlahStored">
+        <select name="bibit_id" id="bibit_id" onchange="updateJumlahStored">
             {% if bibits %}
             {% for bibit in bibits %}
-                <option value="{{ bibit }}">{{ bibit.nama }}</option>
+                <option value="{{ bibit.id_aset }}">{{ bibit.nama }}</option>
             {% endfor %}
             {% endif %}
         </select>

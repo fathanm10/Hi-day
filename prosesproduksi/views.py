@@ -51,7 +51,7 @@ def produksi_tanaman(request):
             'bibits':bibits
         })
 
-    bibit = request.POST['bibit']
+    bibit_id = request.POST['bibit_id']
     jumlah_stored = request.POST['jumlah_stored']
     jumlah = request.POST['jumlah']
     xp = request.POST['xp']
@@ -75,12 +75,15 @@ def produksi_tanaman(request):
         INSERT INTO HISTORI_PRODUKSI VALUES
         ('{data['email']}','{time}','{time}','{jumlah}','{xp}')
     ''')
-    print(result)
-
+    print("insert histori produksi")
+    print(time)
     result = get_query(f'''
         INSERT INTO HISTORI_TANAMAN VALUES
-        ('{data['email']}','{time}','{bibit['id_aset']}')
+        ('{data['email']}','{time}','{bibit_id}')
     ''')
+    print(time)
+
+
     return redirect("/prosesproduksi/histori_tanaman")
 
 
