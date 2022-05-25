@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from django.template.defaulttags import register
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
 
 from hi_day.utils import get_query
 from hi_day.auth import is_authenticated, get_role, get_session_data
@@ -219,6 +220,7 @@ def transaksi(request):
 @csrf_exempt
 def upgrade(request):
     data = get_session_data(request)
+    lumbung_data = {}
     user_data = {}
     if data['role'] == 'user':
         result = get_query(f'''
@@ -226,13 +228,26 @@ def upgrade(request):
             WHERE email='{request.session['email']}';
         ''')
         print(result[0])
+        lumbung_data['email'] = result[0][0]
+        lumbung_data['level'] = result[0][1]
+        lumbung_data['new_level'] = int(result[0][1])+1
+        lumbung_data['cap'] = result[0][2]
+        lumbung_data['new_cap'] = int(result[0][2])+50
+        lumbung_data['total'] = result[0][3]
+
+        result = get_query(f'''
+            SELECT * FROM pengguna
+            WHERE email='{request.session['email']}';
+        ''')
+        print(result[0])
         user_data['email'] = result[0][0]
-        user_data['level'] = result[0][1]
-        user_data['new_level'] = int(result[0][1])+1
-        user_data['cap'] = result[0][2]
-        user_data['new_cap'] = int(result[0][2])+50
-        user_data['total'] = result[0][3]
+        user_data['farm'] = result[0][2]
+        user_data['xp'] = result[0][3]
+        user_data['koin'] = result[0][4]
+        user_data['level'] = result[0][5]
+
     data['user'] = user_data
+    data['lumbung'] = lumbung_data
 
     if request.method != "POST":
         return render(request, 'lumbung/upgrade.html', {
@@ -240,24 +255,31 @@ def upgrade(request):
             'data': data,
         })
 
-    level = user_data["new_level"]
-    cap = user_data["new_cap"]
+    level = lumbung_data["new_level"]
+    cap = lumbung_data["new_cap"]
     biaya = request.POST["biaya"]
     time = datetime.now()
+
+    result_transaksi = get_query(
+        f"""
+        INSERT INTO TRANSAKSI_UPGRADE_LUMBUNG VALUES
+        ('{lumbung_data['email']}','{time}')
+        """
+    )
+    print("result_transaksi:")
+    print(result_transaksi)
+
+    if int(biaya) > data['user']['koin']:
+        messages.error(request, 'Koin anda tidak cukup, silahkan cari Koin terlebih dahulu')
+        return redirect("/lumbung/upgrade")
 
     result_lumbung = get_query(
         f"""
         UPDATE LUMBUNG
         SET level = {level}, kapasitas_max = {cap}
-        WHERE email = '{user_data['email']}'
+        WHERE email = '{lumbung_data['email']}'
         """
     )
 
-    result_transaksi = get_query(
-        f"""
-        INSERT INTO TRANSAKSI_UPGRADE_LUMBUNG VALUES
-        ('{user_data['email']}','{time}')
-        """
-    )
 
     return redirect("/lumbung/upgrade")

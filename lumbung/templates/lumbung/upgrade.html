@@ -9,15 +9,15 @@
 <form method="post" class="buat">
     <div class="">
         <label for="new_level">Level Lumbung:</label>
-        <input value='{{ data.user.level }}' readonly><span>=></span><input type="new_level" name="new_level" id="new_level" value='{{ data.user.new_level }}' readonly>
+        <input value='{{ data.lumbung.level }}' readonly><span>=></span><input type="new_level" name="new_level" id="new_level" value='{{ data.lumbung.new_level }}' readonly>
     </div>
     <div class="">
         <label for="new_cap">Kapasitas Lumbung:</label>
-        <input value='{{ data.user.cap }}' readonly><span>=></span><input type="new_cap" name="new_cap" id="new_cap" value='{{ data.user.new_cap }}' readonly>
+        <input value='{{ data.lumbung.cap }}' readonly><span>=></span><input type="new_cap" name="new_cap" id="new_cap" value='{{ data.lumbung.new_cap }}' readonly>
     </div>
     <div class="">
-        <label for="xp">xp Upgrade:</label>
-        <input type="xp" name="xp" id="xp" value='200' readonly>
+        <label for="biaya">Biaya Upgrade:</label>
+        <input type="biaya" name="biaya" id="biaya" value='200' readonly>
     </div>
     <button type="submit">Upgrade</button>
 
