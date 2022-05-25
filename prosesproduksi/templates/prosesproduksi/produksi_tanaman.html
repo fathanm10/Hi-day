@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{% endblock styles %}
+
+{% block body %}
+<h1>Form {{ title }}</h1>
+<form method="post" class="buat">
+    <div class="">
+        <select name="bibit" id="bibit" onchange="updateJumlahStored">
+            {% if bibits %}
+            {% for bibit in bibits %}
+                <option value="{{ bibit }}">{{ bibit.nama }}</option>
+            {% endfor %}
+            {% endif %}
+        </select>
+        <input type="hidden" name="jumlah_stored" id="jumlah_stored" value="3">
+    </div>
+    <div class="">
+        <label for="jumlah">Jumlah:</label>
+        <input type="jumlah" name="jumlah" id="jumlah" onchange="updateXP()">
+    </div>
+    <div class="">
+        <label for="xp">XP:</label>
+        <input type="xp" name="xp" id="xp" readonly>
+    </div>
+    <button type="submit">Produksi</button>
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-danger" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+</form>
+    <script>
+        function updateXP() {
+            var x = document.getElementById("jumlah").value;
+            document.getElementById("xp").setAttribute("value", x*5);
+        }
+        function updateJumlahStored() {
+            var x = document.getElementById("bibit").value;
+            document.getElementById("jumlah_stored").setAttribute("value", x.jumlah);
+        }
+    </script>
+{% endblock body %}
