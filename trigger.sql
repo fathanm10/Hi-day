@@ -144,3 +144,5 @@ END;
 $$
 LANGUAGE plpgsql;
 
+create trigger update_koin_beli_aset BEFORE INSERT ON transaksi_pembelian FOR EACH ROW EXECUTE procedure update_uang_transaksi();
+create trigger update_koleksi AFTER INSERT ON transaksi_pembelian FOR EACH ROW EXECUTE procedure update_koleksi_aset();
