@@ -6,34 +6,35 @@
 
 
 {% block body %}
-<h1>Form Buat Aset {{ title }}</h1>
+<h1>Form Update Aset {{ title }}</h1>
+{% for object in data %}
 <form method="post">
     <div>
         <label for="id">ID:</label>
-        <input type="id" name="id" id="id" placeholder="hXX" disabled>
+        <input type="id" name="id" id="id" placeholder="{{object.id}}" value="{{object.id}}" disabled>
     </div>
     <div>
         <label for="nama">Nama:</label>
-        <input type="nama" name="nama" id="nama" placeholder="Nama" disabled>
+        <input type="nama" name="nama" id="nama" placeholder="{{object.nama}}" value="{{object.nama}}" disabled>
     </div>
     <div>
-        <label for="minimum_level">Minimum Level:</label>
-        <input type="minimum_level" name="minimum_level" id="minimum_level">
+        <label for="min_level">Minimum Level:</label>
+        <input type="min_level" name="min_level" id="min_level" placeholder="{{object.min_level}}" required>
     </div>
     <div>
         <label for="harga_beli">Harga Beli:</label>
-        <input type="harga_beli" name="harga_beli" id="harga_beli">
+        <input type="harga_beli" name="harga_beli" id="harga_beli" placeholder="{{object.harga_beli}}" required>
     </div>
 
 
     
     <div>
         <label for="durasi_produksi">Durasi Produksi:</label>
-        <input type="durasi_produksi" name="durasi_produksi" id="durasi_produksi">
+        <input type="time" step="1" name="durasi_produksi" id="durasi_produksi" placeholder="{{object.durasi_produksi}}">
     </div>
     <div>
         <label for="id_kandang">ID Kandang:</label>
-        <input type="id_kandang" name="id_kandang" id="id_kandang" placeholder="ID Kandang" disabled>
+        <input type="id_kandang" name="id_kandang" id="id_kandang" placeholder="{{object.id_kandang}}" disabled>
     </div>
 
     
@@ -47,4 +48,5 @@
         {% endfor %}
     {% endif %}
 </form>
+{% endfor %}
 {% endblock body %}

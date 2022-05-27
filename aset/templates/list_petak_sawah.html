@@ -28,7 +28,7 @@
             <td style="border-collapse: collapse; border: 1px solid;">{{ object.jenis_tanaman }}</td>
             {% if data.role == 'admin' %}
             <td style="border-collapse: collapse; border: 1px solid;">
-                <a href="">Update</a>
+                <a href="/aset/update/petak-sawah/{{object.id}}">Update</a>
                 
                 {% if object.deletable == 'TRUE' %}
                 <a href="/aset/delete-aset/{{object.id}}">Delete</a>

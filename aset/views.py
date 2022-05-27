@@ -1,3 +1,4 @@
+from re import I
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 
@@ -532,7 +533,6 @@ def create_aset_list(request):
     if not is_authenticated(request):
         return redirect("/auth/login")
     
-    print('masuk')
     data = get_session_data(request)
     return render(
         request,
@@ -655,27 +655,243 @@ def create_transaksi_beli_aset(request):
 
 @csrf_exempt
 def update_dekorasi(request, id):
-    print('do stuff')
+    if get_session_data(request)['role'] == 'user':
+        raise PermissionDenied()
+    
+    if get_session_data(request)['role'] == 'admin':
+        if request.method  == "POST":
+            min_level = request.POST.get("min_level")
+            harga_beli = request.POST.get("harga_beli")
+
+            harga_jual = request.POST.get("harga_jual")
+
+            get_query(
+                f'''
+                UPDATE ASET
+                SET MIN_LEVEL={min_level}, HARGA_BELI={harga_beli}
+                WHERE ID='{id}';
+
+                UPDATE DEKORASI
+                SET HARGA_JUAL={harga_jual}
+                WHERE ID_ASET='{id}';
+                ''')
+            return redirect("/aset/")
+
+        data = get_query(
+            f'''
+            SELECT *
+            FROM ASET JOIN DEKORASI
+            ON ID=ID_ASET
+            WHERE ID='{id}';
+            ''')
+
+        return render(
+            request,
+            'update_dekorasi.html',
+            {'title': 'Dekorasi', 'data': data})
+    
+    else:
+        raise PermissionDenied()
 
 @csrf_exempt
 def update_bibit_tanaman(request, id):
-    print('do stuff')
+    if get_session_data(request)['role'] == 'user':
+        raise PermissionDenied()
+    
+    if get_session_data(request)['role'] == 'admin':
+        if request.method  == "POST":
+            min_level = request.POST.get("min_level")
+            harga_beli = request.POST.get("harga_beli")
+
+            durasi_panen = request.POST.get("durasi_panen")
+
+            get_query(
+                f'''
+                UPDATE ASET
+                SET MIN_LEVEL={min_level}, HARGA_BELI={harga_beli}
+                WHERE ID='{id}';
+
+                UPDATE BIBIT_TANAMAN
+                SET DURASI_PANEN='{durasi_panen}'
+                WHERE ID_ASET='{id}';
+                ''')
+            return redirect("/aset/")
+
+        data = get_query(
+            f'''
+            SELECT *
+            FROM ASET JOIN BIBIT_TANAMAN
+            ON ID=ID_ASET
+            WHERE ID='{id}';
+            ''')
+
+        return render(
+            request,
+            'update_bibit_tanaman.html',
+            {'title': 'Bibit Tanaman', 'data': data})
+    
+    else:
+        raise PermissionDenied()
 
 @csrf_exempt
 def update_kandang(request, id):
-    print('do stuff')
+    if get_session_data(request)['role'] == 'user':
+        raise PermissionDenied()
+    
+    if get_session_data(request)['role'] == 'admin':
+        if request.method  == "POST":
+            min_level = request.POST.get("min_level")
+            harga_beli = request.POST.get("harga_beli")
+
+            kapasitas_max = request.POST.get("kapasitas_max")
+
+            get_query(
+                f'''
+                UPDATE ASET
+                SET MIN_LEVEL={min_level}, HARGA_BELI={harga_beli}
+                WHERE ID='{id}';
+
+                UPDATE KANDANG
+                SET KAPASITAS_MAX={kapasitas_max}
+                WHERE ID_ASET='{id}';
+                ''')
+            return redirect("/aset/")
+
+        data = get_query(
+            f'''
+            SELECT *
+            FROM ASET JOIN KANDANG
+            ON ID=ID_ASET
+            WHERE ID='{id}';
+            ''')
+
+        return render(
+            request,
+            'update_kandang.html',
+            {'title': 'Kandang', 'data': data})
+    
+    else:
+        raise PermissionDenied()
 
 @csrf_exempt
 def update_hewan(request, id):
-    print('do stuff')
+    if get_session_data(request)['role'] == 'user':
+        raise PermissionDenied()
+    
+    if get_session_data(request)['role'] == 'admin':
+        if request.method  == "POST":
+            min_level = request.POST.get("min_level")
+            harga_beli = request.POST.get("harga_beli")
+
+            durasi_produksi = request.POST.get("durasi_produksi")
+
+            get_query(
+                f'''
+                UPDATE ASET
+                SET MIN_LEVEL={min_level}, HARGA_BELI={harga_beli}
+                WHERE ID='{id}';
+
+                UPDATE HEWAN
+                SET DURASI_PRODUKSI='{durasi_produksi}'
+                WHERE ID_ASET='{id}';
+                ''')
+            return redirect("/aset/")
+
+        data = get_query(
+            f'''
+            SELECT *
+            FROM ASET JOIN HEWAN
+            ON ID=ID_ASET
+            WHERE ID='{id}';
+            ''')
+
+        return render(
+            request,
+            'update_hewan.html',
+            {'title': 'Hewan', 'data': data})
+    
+    else:
+        raise PermissionDenied()
 
 @csrf_exempt
 def update_alat_produksi(request, id):
-    print('do stuff')
+    if get_session_data(request)['role'] == 'user':
+        raise PermissionDenied()
+    
+    if get_session_data(request)['role'] == 'admin':
+        if request.method  == "POST":
+            min_level = request.POST.get("min_level")
+            harga_beli = request.POST.get("harga_beli")
+
+            kapasitas_max = request.POST.get("kapasitas_max")
+
+            get_query(
+                f'''
+                UPDATE ASET
+                SET MIN_LEVEL={min_level}, HARGA_BELI={harga_beli}
+                WHERE ID='{id}';
+
+                UPDATE ALAT_PRODUKSI
+                SET KAPASITAS_MAX={kapasitas_max}
+                WHERE ID_ASET='{id}';
+                ''')
+            return redirect("/aset/")
+
+        data = get_query(
+            f'''
+            SELECT *
+            FROM ASET JOIN ALAT_PRODUKSI
+            ON ID=ID_ASET
+            WHERE ID='{id}';
+            ''')
+
+        return render(
+            request,
+            'update_alat_produksi.html',
+            {'title': 'Alat Produksi', 'data': data})
+    
+    else:
+        raise PermissionDenied()
 
 @csrf_exempt
 def update_petak_sawah(request, id):
-    print('do stuff')
+    if get_session_data(request)['role'] == 'user':
+        raise PermissionDenied()
+    
+    if get_session_data(request)['role'] == 'admin':
+        if request.method  == "POST":
+            min_level = request.POST.get("min_level")
+            harga_beli = request.POST.get("harga_beli")
+
+            jenis_tanaman = request.POST.get("jenis_tanaman")
+
+            get_query(
+                f'''
+                UPDATE ASET
+                SET MIN_LEVEL={min_level}, HARGA_BELI={harga_beli}
+                WHERE ID='{id}';
+
+                UPDATE PETAK_SAWAH
+                SET JENIS_TANAMAN='{jenis_tanaman}'
+                WHERE ID_ASET='{id}';
+                ''')
+            return redirect("/aset/")
+
+        data = get_query(
+            f'''
+            SELECT *
+            FROM ASET JOIN PETAK_SAWAH
+            ON ID=ID_ASET
+            WHERE ID='{id}';
+            ''')
+
+        return render(
+            request,
+            'update_petak_sawah.html',
+            {'title': 'Petak Sawah', 'data': data})
+    
+    else:
+        raise PermissionDenied()
 
 
 
@@ -712,3 +928,5 @@ def delete_aset(request, id):
             ''')
 
         return redirect("/")
+    else:
+        raise PermissionDenied()
