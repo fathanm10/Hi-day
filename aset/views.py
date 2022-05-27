@@ -1,3 +1,4 @@
+import re
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 
@@ -542,91 +543,368 @@ def create_aset_list(request):
 def create_dekorasi(request):
     if not is_authenticated(request):
         return redirect("/auth/login")
+        
+    if get_session_data(request)['role'] == 'user':
+        raise PermissionDenied()
+    
+    if get_session_data(request)['role'] == 'admin':
+        if request.method  == "POST":
+            id_size = str(get_query(
+                f'''
+                SELECT ID_ASET
+                FROM DEKORASI
+                ORDER BY ID_ASET DESC
+                LIMIT 1;
+                '''))
+            id = id_size[id_size.find("'")+1: id_size.find("'", id_size.find("'")+1)]
+            m = re.search(r"\d", id)
+            new_id_num = id[m.start():]
+            new_id = 'd'+ str(int(new_id_num)+1).zfill(2)
+
+            nama = request.POST.get("nama")
+            min_level = request.POST.get("min_level")
+            harga_beli = request.POST.get("harga_beli")
+
+            harga_jual = request.POST.get("harga_jual")
+
+            get_query(
+                f'''
+                INSERT INTO ASET
+                VALUES ('{new_id}', '{nama}', {min_level}, {harga_beli});
+
+                INSERT INTO DEKORASI
+                VALUES ('{new_id}', {harga_jual});
+                ''')
+            return redirect("/aset/")
+            
 
     data = get_session_data(request)
     if request.method != "POST":
+        id_size = str(get_query(
+                f'''
+                SELECT ID_ASET
+                FROM DEKORASI
+                ORDER BY ID_ASET DESC
+                LIMIT 1;
+                '''))
+        id = id_size[id_size.find("'")+1: id_size.find("'", id_size.find("'")+1)]
+        m = re.search(r"\d", id)
+        new_id_num = id[m.start():]
+        new_id = 'd'+ str(int(new_id_num)+1).zfill(2)
+
         return render(request, 'create_dekorasi.html',
         {
             'title': "Dekorasi",
-            'data': data
+            'data': data,
+            'id': new_id
         })
-
-    print('do stuff')
 
 @csrf_exempt
 def create_bibit_tanaman(request):
     if not is_authenticated(request):
         return redirect("/auth/login")
+        
+    if get_session_data(request)['role'] == 'user':
+        raise PermissionDenied()
+    
+    if get_session_data(request)['role'] == 'admin':
+        if request.method  == "POST":
+            id_size = str(get_query(
+                f'''
+                SELECT ID_ASET
+                FROM BIBIT_TANAMAN
+                ORDER BY ID_ASET DESC
+                LIMIT 1;
+                '''))
+            id = id_size[id_size.find("'")+1: id_size.find("'", id_size.find("'")+1)]
+            m = re.search(r"\d", id)
+            new_id_num = id[m.start():]
+            new_id = 'bt'+ str(int(new_id_num)+1).zfill(2)
+
+            nama = request.POST.get("nama")
+            min_level = request.POST.get("min_level")
+            harga_beli = request.POST.get("harga_beli")
+
+            durasi_panen = request.POST.get("durasi_panen")
+
+            get_query(
+                f'''
+                INSERT INTO ASET
+                VALUES ('{new_id}', '{nama}', {min_level}, {harga_beli});
+
+                INSERT INTO BIBIT_TANAMAN
+                VALUES ('{new_id}', '{durasi_panen}');
+                ''')
+            return redirect("/aset/")
+            
 
     data = get_session_data(request)
     if request.method != "POST":
+        id_size = str(get_query(
+                f'''
+                SELECT ID_ASET
+                FROM BIBIT_TANAMAN
+                ORDER BY ID_ASET DESC
+                LIMIT 1;
+                '''))
+        id = id_size[id_size.find("'")+1: id_size.find("'", id_size.find("'")+1)]
+        m = re.search(r"\d", id)
+        new_id_num = id[m.start():]
+        new_id = 'bt'+ str(int(new_id_num)+1).zfill(2)
+
         return render(request, 'create_bibit_tanaman.html',
         {
             'title': "Bibit Tanaman",
-            'data': data
+            'data': data,
+            'id': new_id
         })
-
-    print('do stuff')
 
 @csrf_exempt
 def create_kandang(request):
     if not is_authenticated(request):
         return redirect("/auth/login")
+        
+    if get_session_data(request)['role'] == 'user':
+        raise PermissionDenied()
+    
+    if get_session_data(request)['role'] == 'admin':
+        if request.method  == "POST":
+            id_size = str(get_query(
+                f'''
+                SELECT ID_ASET
+                FROM KANDANG
+                ORDER BY ID_ASET DESC
+                LIMIT 1;
+                '''))
+            id = id_size[id_size.find("'")+1: id_size.find("'", id_size.find("'")+1)]
+            m = re.search(r"\d", id)
+            new_id_num = id[m.start():]
+            new_id = 'k'+ str(int(new_id_num)+1).zfill(2)
+
+            nama = request.POST.get("nama")
+            min_level = request.POST.get("min_level")
+            harga_beli = request.POST.get("harga_beli")
+
+            kapasitas_max = request.POST.get("kapasitas_max")
+            jenis_hewan = request.POST.get("jenis_hewan")
+
+            get_query(
+                f'''
+                INSERT INTO ASET
+                VALUES ('{new_id}', '{nama}', {min_level}, {harga_beli});
+
+                INSERT INTO KANDANG
+                VALUES ('{new_id}', {kapasitas_max}, '{jenis_hewan}');
+                ''')
+            return redirect("/aset/")
+            
 
     data = get_session_data(request)
     if request.method != "POST":
+        id_size = str(get_query(
+                f'''
+                SELECT ID_ASET
+                FROM KANDANG
+                ORDER BY ID_ASET DESC
+                LIMIT 1;
+                '''))
+        id = id_size[id_size.find("'")+1: id_size.find("'", id_size.find("'")+1)]
+        m = re.search(r"\d", id)
+        new_id_num = id[m.start():]
+        new_id = 'k'+ str(int(new_id_num)+1).zfill(2)
+
         return render(request, 'create_kandang.html',
         {
             'title': "Kandang",
-            'data': data
+            'data': data,
+            'id': new_id
         })
-
-    print('masuk')
 
 @csrf_exempt
 def create_hewan(request):
     if not is_authenticated(request):
         return redirect("/auth/login")
+        
+    if get_session_data(request)['role'] == 'user':
+        raise PermissionDenied()
+    
+    if get_session_data(request)['role'] == 'admin':
+        if request.method  == "POST":
+            id_size = str(get_query(
+                f'''
+                SELECT ID_ASET
+                FROM HEWAN
+                ORDER BY ID_ASET DESC
+                LIMIT 1;
+                '''))
+            id = id_size[id_size.find("'")+1: id_size.find("'", id_size.find("'")+1)]
+            m = re.search(r"\d", id)
+            new_id_num = id[m.start():]
+            new_id = 'h'+ str(int(new_id_num)+1).zfill(2)
+
+            nama = request.POST.get("nama")
+            min_level = request.POST.get("min_level")
+            harga_beli = request.POST.get("harga_beli")
+
+            durasi_produksi = request.POST.get("durasi_produksi")
+
+            id_size = str(get_query(
+                f'''
+                SELECT ID_ASET FROM KANDANG WHERE JENIS_HEWAN='{nama}';
+                '''))
+            id = id_size[id_size.find("'")+1: id_size.find("'", id_size.find("'")+1)]
+
+            get_query(
+                f'''
+                INSERT INTO ASET
+                VALUES ('{new_id}', '{nama}', {min_level}, {harga_beli});
+
+                INSERT INTO HEWAN
+                VALUES ('{new_id}', '{durasi_produksi}', '{id}');
+                ''')
+            return redirect("/aset/")
+            
 
     data = get_session_data(request)
     if request.method != "POST":
+        id_size = str(get_query(
+                f'''
+                SELECT ID_ASET
+                FROM HEWAN
+                ORDER BY ID_ASET DESC
+                LIMIT 1;
+                '''))
+        id = id_size[id_size.find("'")+1: id_size.find("'", id_size.find("'")+1)]
+        m = re.search(r"\d", id)
+        new_id_num = id[m.start():]
+        new_id = 'h'+ str(int(new_id_num)+1).zfill(2)
+
         return render(request, 'create_hewan.html',
         {
             'title': "Hewan",
-            'data': data
+            'data': data,
+            'id': new_id
         })
-
-    print('do stuff')
 
 @csrf_exempt
 def create_alat_produksi(request):
     if not is_authenticated(request):
         return redirect("/auth/login")
+        
+    if get_session_data(request)['role'] == 'user':
+        raise PermissionDenied()
+    
+    if get_session_data(request)['role'] == 'admin':
+        if request.method  == "POST":
+            id_size = str(get_query(
+                f'''
+                SELECT ID_ASET
+                FROM ALAT_PRODUKSI
+                ORDER BY ID_ASET DESC
+                LIMIT 1;
+                '''))
+            id = id_size[id_size.find("'")+1: id_size.find("'", id_size.find("'")+1)]
+            m = re.search(r"\d", id)
+            new_id_num = id[m.start():]
+            new_id = 'ap'+ str(int(new_id_num)+1).zfill(2)
+
+            nama = request.POST.get("nama")
+            min_level = request.POST.get("min_level")
+            harga_beli = request.POST.get("harga_beli")
+
+            kapasitas_max = request.POST.get("kapasitas_max")
+
+            get_query(
+                f'''
+                INSERT INTO ASET
+                VALUES ('{new_id}', '{nama}', {min_level}, {harga_beli});
+
+                INSERT INTO ALAT_PRODUKSI
+                VALUES ('{new_id}', {kapasitas_max});
+                ''')
+            return redirect("/aset/")
+            
 
     data = get_session_data(request)
     if request.method != "POST":
+        id_size = str(get_query(
+                f'''
+                SELECT ID_ASET
+                FROM ALAT_PRODUKSI
+                ORDER BY ID_ASET DESC
+                LIMIT 1;
+                '''))
+        id = id_size[id_size.find("'")+1: id_size.find("'", id_size.find("'")+1)]
+        m = re.search(r"\d", id)
+        new_id_num = id[m.start():]
+        new_id = 'ap'+ str(int(new_id_num)+1).zfill(2)
+
         return render(request, 'create_alat_produksi.html',
         {
             'title': "Alat Produksi",
-            'data': data
+            'data': data,
+            'id': new_id
         })
-
-    print('do stuff')
 
 @csrf_exempt
 def create_petak_sawah(request):
     if not is_authenticated(request):
         return redirect("/auth/login")
+        
+    if get_session_data(request)['role'] == 'user':
+        raise PermissionDenied()
+    
+    if get_session_data(request)['role'] == 'admin':
+        if request.method  == "POST":
+            id_size = str(get_query(
+                f'''
+                SELECT ID_ASET
+                FROM PETAK_SAWAH
+                ORDER BY ID_ASET DESC
+                LIMIT 1;
+                '''))
+            id = id_size[id_size.find("'")+1: id_size.find("'", id_size.find("'")+1)]
+            m = re.search(r"\d", id)
+            new_id_num = id[m.start():]
+            new_id = 'ps'+ str(int(new_id_num)+1).zfill(2)
+
+            nama = request.POST.get("nama")
+            min_level = request.POST.get("min_level")
+            harga_beli = request.POST.get("harga_beli")
+
+            jenis_tanaman = request.POST.get("jenis_tanaman")
+
+            get_query(
+                f'''
+                INSERT INTO ASET
+                VALUES ('{new_id}', '{nama}', {min_level}, {harga_beli});
+
+                INSERT INTO PETAK_SAWAH
+                VALUES ('{new_id}', {jenis_tanaman});
+                ''')
+            return redirect("/aset/")
+            
 
     data = get_session_data(request)
     if request.method != "POST":
+        id_size = str(get_query(
+                f'''
+                SELECT ID_ASET
+                FROM DEKORASI
+                ORDER BY ID_ASET DESC
+                LIMIT 1;
+                '''))
+        id = id_size[id_size.find("'")+1: id_size.find("'", id_size.find("'")+1)]
+        m = re.search(r"\d", id)
+        new_id_num = id[m.start():]
+        new_id = 'd'+ str(int(new_id_num)+1).zfill(2)
+
         return render(request, 'create_petak_sawah.html',
         {
             'title': "Petak Sawah",
-            'data': data
+            'data': data,
+            'id': new_id
         })
-
-    print('do stuff')
 
 @csrf_exempt
 def create_transaksi_beli_aset(request):
@@ -640,8 +918,6 @@ def create_transaksi_beli_aset(request):
             'title': "Menu Buat Transaksi Pembelian Aset",
             'data': data
         })
-
-    print('do stuff')
 
 
 
