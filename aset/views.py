@@ -1,3 +1,4 @@
+from datetime import datetime
 import re
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
@@ -911,8 +912,29 @@ def create_transaksi_beli_aset(request):
     if not is_authenticated(request):
         return redirect("/auth/login")
 
-    data = get_session_data(request)
-    if request.method != "POST":
+    if get_session_data(request)['role'] == 'admin':
+        raise PermissionDenied()
+    
+    elif request.method  == "POST":
+        id = request.POST.get("detail_aset")
+        jumlah = request.POST.get("jumlah")
+
+        now = datetime.now()
+        dt_string = now.strftime("%Y-%m-%d %H:%M:%S")
+
+        get_query(
+            f'''
+            INSERT INTO TRANSAKSI_PEMBELIAN
+            VALUES('{request.session['email']}', '{dt_string}', {jumlah}, '{id}')
+            ''')
+        return redirect("/aset/transaksi")
+
+    else:
+        data = get_query(
+            f'''
+            SELECT * FROM ASET;
+            ''')
+
         return render(request, 'create_transaksi_beli_aset.html',
         {
             'title': "Menu Buat Transaksi Pembelian Aset",
