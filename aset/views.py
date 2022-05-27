@@ -881,7 +881,7 @@ def create_petak_sawah(request):
                 VALUES ('{new_id}', '{nama}', {min_level}, {harga_beli});
 
                 INSERT INTO PETAK_SAWAH
-                VALUES ('{new_id}', {jenis_tanaman});
+                VALUES ('{new_id}', '{jenis_tanaman}');
                 ''')
             return redirect("/aset/")
             
@@ -891,7 +891,7 @@ def create_petak_sawah(request):
         id_size = str(get_query(
                 f'''
                 SELECT ID_ASET
-                FROM DEKORASI
+                FROM PETAK_SAWAH
                 ORDER BY ID_ASET DESC
                 LIMIT 1;
                 '''))
@@ -900,11 +900,16 @@ def create_petak_sawah(request):
         new_id_num = id[m.start():]
         new_id = 'd'+ str(int(new_id_num)+1).zfill(2)
 
+        petak = get_query(
+            f'''
+            SELECT NAMA FROM ASET JOIN BIBIT_TANAMAN ON ID=ID_ASET;
+            ''')
         return render(request, 'create_petak_sawah.html',
         {
             'title': "Petak Sawah",
             'data': data,
-            'id': new_id
+            'id': new_id,
+            'petak': petak
         })
 
 @csrf_exempt
@@ -1181,11 +1186,16 @@ def update_petak_sawah(request, id):
             ON ID=ID_ASET
             WHERE ID='{id}';
             ''')
+        
+        petak = get_query(
+            f'''
+            SELECT NAMA FROM ASET JOIN BIBIT_TANAMAN ON ID=ID_ASET;
+            ''')
 
         return render(
             request,
             'update_petak_sawah.html',
-            {'title': 'Petak Sawah', 'data': data})
+            {'title': 'Petak Sawah', 'data': data, 'petak': petak})
     
     else:
         raise PermissionDenied()
