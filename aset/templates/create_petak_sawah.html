@@ -30,10 +30,9 @@
     <div>
         <label for="jenis_tanaman">Jenis Tanaman:</label>
         <select id="jenis_tanaman" name="jenis_tanaman">
-            <option value="stroberi">Stroberi</option>
-            <option value="padi">Padi</option>
-            <option value="gandum">Gandum</option>
-            <option value="wortel">Wortel</option>
+            {% for jenis in petak %}
+            <option value="{{jenis.nama}}">{{jenis.nama}}</option>
+            {% endfor %}
         </select>
     </div>
     
