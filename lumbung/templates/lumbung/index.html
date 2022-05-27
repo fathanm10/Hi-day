@@ -2,98 +2,118 @@
 {% load static %}
 
 {% block styles %}
+<link rel="stylesheet" href="{% static 'css/lumbung/index.css' %}">
 {% endblock styles %}
 
 {% block body %}
-<h1>Detail Lumbung</h1>
 
-{% if data.role == 'user' %}
-<p>Level: {{ data.lumbung.level }}</p>
-<p>Kapasitas: {{ data.lumbung.capacity }}</p>
-{% endif %}
+<div class="main">
+  <h1>Detail Lumbung</h1>
 
-<h2>Produk Hasil Panen</h2>
-<table>
-  <tr>
-    <th>No</th>
-    {% if data.role == 'admin' %}
-    <th>Email Pemilik Lumbung</th>
-    {% endif %}
-    <th>ID Produk</th>
-    <th>Nama Produk</th>
-    <th>Harga Jual</th>
-    <th>Sifat Produk</th>
-    <th>Jumlah Produk</th>
-  </tr>
-  {% for item in data.lumbung.produk.hasil_panen %}
-  <tr>
-    <td>{{ forloop.counter }}</td>
-    {% if data.role == 'admin' %}
-    <td>{{ item.email }}</td>
-    {% endif %}
-    <td>{{ item.id }}</td>
-    <td>{{ item.nama }}</td>
-    <td>{{ item.harga }}</td>
-    <td>{{ item.sifat }}</td>
-    <td>{{ item.jumlah }}</td>
-  </tr>
-  {% endfor %}
-</table>
+  {% if data.role == 'user' %}
+  <div class="">
+    <table class="table">
+      <tr>
+        <td>Level</td>
+        <td>{{ data.lumbung.level }}</td>
+      </tr>
+      <tr>
+        <td>Kapasitas</td>
+        <td>{{ data.lumbung.capacity }}</td>
+      </tr>
+    </table>
+  </div>
+  {% endif %}
 
-<h2>Produk Hewan</h2>
-<table>
-  <tr>
-    <th>No</th>
-    {% if data.role == 'admin' %}
-    <th>Email Pemilik Lumbung</th>
-    {% endif %}
-    <th>ID Produk</th>
-    <th>Nama Produk</th>
-    <th>Harga Jual</th>
-    <th>Sifat Produk</th>
-    <th>Jumlah Produk</th>
-  </tr>
-  {% for item in data.lumbung.produk.produk_hewan %}
-  <tr>
-    <td>{{ forloop.counter }}</td>
-    {% if data.role == 'admin' %}
-    <td>{{ item.email }}</td>
-    {% endif %}
-    <td>{{ item.id }}</td>
-    <td>{{ item.nama }}</td>
-    <td>{{ item.harga }}</td>
-    <td>{{ item.sifat }}</td>
-    <td>{{ item.jumlah }}</td>
-  </tr>
-  {% endfor %}
-</table>
+  <h2>Produk Hasil Panen</h2>
+  <div class="">
+    <table class="table table-striped table-bordered">
+      <tr>
+        <th class="text-center align-middle">No</th>
+        {% if data.role == 'admin' %}
+        <th class="text-center align-middle">Email Pemilik Lumbung</th>
+        {% endif %}
+        <th class="text-center align-middle">ID Produk</th>
+        <th class="text-center align-middle">Nama Produk</th>
+        <th class="text-center align-middle">Harga<br>Jual</th>
+        <th class="text-center align-middle">Sifat Produk</th>
+        <th class="text-center align-middle">Jumlah<br>Produk</th>
+      </tr>
+      {% for item in data.lumbung.produk.hasil_panen %}
+      <tr>
+        <th class="text-center align-middle">{{ forloop.counter }}</th>
+        {% if data.role == 'admin' %}
+        <td class="align-middle">{{ item.email }}</td>
+        {% endif %}
+        <td class="text-center align-middle">{{ item.id }}</td>
+        <td class="align-middle">{{ item.nama }}</td>
+        <td class="text-center align-middle">{{ item.harga }}</td>
+        <td class="align-middle">{{ item.sifat }}</td>
+        <td class="text-center align-middle">{{ item.jumlah }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
 
-<h2>Produk Makanan</h2>
-<table>
-  <tr>
-    <th>No</th>
-    {% if data.role == 'admin' %}
-    <th>Email Pemilik Lumbung</th>
-    {% endif %}
-    <th>ID Produk</th>
-    <th>Nama Produk</th>
-    <th>Harga Jual</th>
-    <th>Sifat Produk</th>
-    <th>Jumlah Produk</th>
-  </tr>
-  {% for item in data.lumbung.produk.produk_makanan %}
-  <tr>
-    <td>{{ forloop.counter }}</td>
-    {% if data.role == 'admin' %}
-    <td>{{ item.email }}</td>
-    {% endif %}
-    <td>{{ item.id }}</td>
-    <td>{{ item.nama }}</td>
-    <td>{{ item.harga }}</td>
-    <td>{{ item.sifat }}</td>
-    <td>{{ item.jumlah }}</td>
-  </tr>
-  {% endfor %}
-</table>
+  <h2>Produk Hewan</h2>
+  <div class="">
+    <table class="table table-striped table-bordered">
+      <tr>
+        <th class="text-center align-middle">No</th>
+        {% if data.role == 'admin' %}
+        <th class="text-center align-middle">Email Pemilik Lumbung</th>
+        {% endif %}
+        <th class="text-center align-middle">ID Produk</th>
+        <th class="text-center align-middle">Nama Produk</th>
+        <th class="text-center align-middle">Harga<br>Jual</th>
+        <th class="text-center align-middle">Sifat Produk</th>
+        <th class="text-center align-middle">Jumlah<br>Produk</th>
+      </tr>
+      {% for item in data.lumbung.produk.produk_hewan %}
+      <tr>
+        <th class="text-center align-middle">{{ forloop.counter }}</th>
+        {% if data.role == 'admin' %}
+        <td class="align-middle">{{ item.email }}</td>
+        {% endif %}
+        <td class="text-center align-middle">{{ item.id }}</td>
+        <td class="align-middle">{{ item.nama }}</td>
+        <td class="text-center align-middle">{{ item.harga }}</td>
+        <td class="align-middle">{{ item.sifat }}</td>
+        <td class="text-center align-middle">{{ item.jumlah }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <h2>Produk Makanan</h2>
+  <div class="">
+    <table class="table table-striped table-bordered">
+      <tr>
+        <th class="text-center align-middle">No</th>
+        {% if data.role == 'admin' %}
+        <th class="text-center align-middle">Email Pemilik Lumbung</th>
+        {% endif %}
+        <th class="text-center align-middle">ID Produk</th>
+        <th class="text-center align-middle">Nama Produk</th>
+        <th class="text-center align-middle">Harga<br>Jual</th>
+        <th class="text-center align-middle">Sifat Produk</th>
+        <th class="text-center align-middle">Jumlah<br>Produk</th>
+      </tr>
+      {% for item in data.lumbung.produk.produk_makanan %}
+      <tr>
+        <th class="text-center align-middle">{{ forloop.counter }}</th>
+        {% if data.role == 'admin' %}
+        <td class="align-middle">{{ item.email }}</td>
+        {% endif %}
+        <td class="text-center align-middle">{{ item.id }}</td>
+        <td class="align-middle">{{ item.nama }}</td>
+        <td class="text-center align-middle">{{ item.harga }}</td>
+        <td class="align-middle">{{ item.sifat }}</td>
+        <td class="text-center align-middle">{{ item.jumlah }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
 
 {% endblock body %}

@@ -2,41 +2,54 @@
 {% load static %}
 
 {% block styles %}
-<link rel="stylesheet" href="{% static 'css/produk/update_produk.css' %}">
+<link rel="stylesheet" href="{% static 'css/produk/produk.css' %}">
+<link rel="stylesheet" href="{% static 'css/produk/add_produk.css' %}">
 {% endblock styles %}
 
 {% block body %}
 {% if data.role == 'admin' %}
-<h1>Update Produk</h1>
+<div class="main">
+  <h1>Update Produk {{ data.product.nama }}</h1>
 
-<form method="post">
-  {% csrf_token %}
-  <div>
-    <label for="jenis">Jenis Produk</label>
-    <select name="jenis" id="jenis" required disabled value="{{ data.product.jenis }}">
-      <option value="panen">Hasil Panen</option>
-      <option value="hewan">Produk Hewan</option>
-      <option value="makanan">Produk Makanan</option>
-    </select>
-  </div>
-  <div>
-    <label for="nama">Nama</label>
-    <input type="text" name="nama" id="nama" required disabled value="{{ data.product.nama }}">
-  </div>
-  <div>
-    <label for="harga">Harga Jual</label>
-    <input type="number" name="harga" id="harga" required value="{{ data.product.harga }}">
-  </div>
-  <div>
-    <label for="sifat">Sifat Produk</label>
-    <input type="text" name="sifat" id="sifat" required value="{{ data.product.sifat }}">
-  </div>
+  <form method="post">
+    {% csrf_token %}
 
-  <button type="submit">Update</button>
-</form>
+    <table class="table">
+      <tr>
+        <td><label for="jenis">Jenis Produk</label></td>
+        <td>
+          <select name="jenis" id="jenis" required disabled value="{{ data.product.jenis }}">
+            <option value="panen">Hasil Panen</option>
+            <option value="hewan">Produk Hewan</option>
+            <option value="makanan">Produk Makanan</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td><label for="nama">Nama</label></td>
+        <td> <input type="text" name="nama" id="nama" required disabled value="{{ data.product.nama }}">
+        </td>
+      </tr>
+      <tr>
+        <td><label for="harga">Harga Jual</label></td>
+        <td> <input type="number" name="harga" id="harga" required value="{{ data.product.harga }}" min="0">
+        </td>
+      </tr>
+      <tr>
+        <td><label for="sifat">Sifat Produk</label></td>
+        <td> <input type="text" name="sifat" id="sifat" required value="{{ data.product.sifat }}">
+        </td>
+      </tr>
+    </table>
+
+    <button type="submit">Update</button>
+  </form>
+</div>
 
 {% else %}
-<h1>ERROR</h1>
-<p>You must be an admin to access this page</p>
+<div class="main">
+  <h1>ERROR</h1>
+  <p>You must be an admin to access this page</p>
+</div>
 {% endif %}
 {% endblock body %}

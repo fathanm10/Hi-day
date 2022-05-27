@@ -2,18 +2,49 @@
 {% load static %}
 
 {% block styles %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
 {% endblock styles %}
 
 {% block body %}
+
 {% if data.role == 'admin' %}
 <h1>Homepage Admin</h1>
-<p>Email: {{data.user.email}}</p>
+<div class="main">
+  <table class="table">
+    <tr>
+      <td>Email</td>
+      <td>{{data.user.email}}</td>
+    </tr>
+  </table>
+</div>
+
 {% elif data.role == 'user' %}
 <h1>Homepage Pengguna</h1>
-<p>Email: {{data.user.email}}</p>
-<p>Nama Area Pertanian: {{data.user.farm}}</p>
-<p>XP: {{data.user.xp}}</p>
-<p>Koin: {{data.user.koin}}</p>
-<p>Level: {{data.user.level}}</p>
+<div class="main">
+  <table class="table">
+    <tr>
+      <td>Email</td>
+      <td>{{data.user.email}}</td>
+    </tr>
+    <tr>
+      <td>Nama Area Pertanian</td>
+      <td>{{data.user.farm}}</td>
+    </tr>
+    <tr>
+      <td>XP</td>
+      <td>{{data.user.xp}}</td>
+    </tr>
+    <tr>
+      <td>Koin</td>
+      <td>{{data.user.koin}}</td>
+    </tr>
+    <tr>
+      <td>Level</td>
+      <td>{{data.user.level}}</td>
+    </tr>
+  </table>
+</div>
+
 {% endif %}
+
 {% endblock body %}

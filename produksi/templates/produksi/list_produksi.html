@@ -2,61 +2,66 @@
 {% load static %}
 
 {% block styles %}
+<link rel="stylesheet" href="{% static 'css/produksi/produksi.css' %}">
 <link rel="stylesheet" href="{% static 'css/produksi/list_produksi.css' %}">
 {% endblock styles %}
 
 {% block body %}
-<h1>List Produksi</h1>
+<div class="main">
+  <h1>List Produksi</h1>
 
-{% if messages %}
+  {% if messages %}
   {% for message in messages %}
-    {% if message.tags == "error" %}
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-      {{ message }}
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    {% else %}
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-      {{ message }}
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    {% endif %}
+  {% if message.tags == "error" %}
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% else %}
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endif %}
   {% endfor %}
-{% endif %}
-  
-<table>
-  <tr>
-    <th>No.</th>
-    <th>Produk Makanan</th>
-    <th>Alat Produksi</th>
-    <th>Durasi Produksi</th>
-    <th>Jumlah Produk Hasil Produksi</th>
-    <th>Action</th>
-  </tr>
+  {% endif %}
 
-  {% for item in data.product %}
-  <tr>
-    <td>{{ forloop.counter }}</td>
-    <td>{{ item.nama }}</td>
-    <td>{{ item.alat }}</td>
-    <td>{{ item.durasi }}</td>
-    <td>{{ item.jumlah }}</td>
+  <div class="">
+    <table class="table table-bordered table-striped">
+      <tr>
+        <th class="text-center align-middle">No.</th>
+        <th class="text-center align-middle">Produk Makanan</th>
+        <th class="text-center align-middle">Alat Produksi</th>
+        <th class="text-center align-middle">Durasi<br>Produksi</th>
+        <th class="text-center align-middle">Jumlah Produk<br>Hasil Produksi</th>
+        <th class="align-middle text-center">Action</th>
+      </tr>
 
-    <td>
-      <a href="/produksi/detail-produksi/{{ item.id }}">Detail</a>
-      {% if data.role == 'admin' %}
-      <a href="/produksi/update-produksi/{{ item.id }}">Update</a>
-      <a href="/produksi/delete-produksi/{{ item.id }}">Delete</a>
-      {% endif %}
-    </td>
-  </tr>
-  
-  {% endfor %}
+      {% for item in data.product %}
+      <tr>
+        <td class="text-center align-middle">{{ forloop.counter }}</td>
+        <td class="align-middle">{{ item.nama }}</td>
+        <td class="align-middle">{{ item.alat }}</td>
+        <td class="align-middle">{{ item.durasi }}</td>
+        <td class="text-center align-middle">{{ item.jumlah }}</td>
 
-</table>
+        <td>
+          <a href="/produksi/detail-produksi/{{ item.id }}"><button>Detail</button></a>
+          {% if data.role == 'admin' %}
+          <a href="/produksi/update-produksi/{{ item.id }}"><button>Update</button></a>
+          <a href="/produksi/delete-produksi/{{ item.id }}"><button>Delete</button></a>
+          {% endif %}
+        </td>
+      </tr>
+
+      {% endfor %}
+
+    </table>
+  </div>
+</div>
 
 {% endblock body %}

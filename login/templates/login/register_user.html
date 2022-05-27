@@ -1,14 +1,14 @@
 {% extends 'base.html' %} 
 
 {% load static %} {% block styles %}
-<link rel="stylesheet" href="{% static 'css/auth/register.css' %}" />
-{% endblock styles %}
+<link rel="stylesheet" href="{% static 'css/auth/auth.css' %}">
+<link rel="stylesheet" href="{% static 'css/auth/register_form.css' %}">{% endblock styles %}
 
 {% block body %}
 <h1>Register User</h1>
-<form method="post" class="regist">
+<form method="post" class="register">
   {% csrf_token %}
-  <div class="">
+  <!-- <div class="">
     <label for="email">Email:</label>
     <input type="email" name="email" id="email" />
   </div>
@@ -19,7 +19,22 @@
   <div class="">
     <label for="farm">Nama Area Pertanian:</label>
     <input type="text" name="farm" id="farm" />
-  </div>
+  </div> -->
+
+  <table class="table">
+    <tr>
+      <td><label for="email">Email</label></td>
+      <td><input type="email" name="email" id="email" required></td>
+    </tr>
+    <tr>
+      <td><label for="password">Password</label></td>
+      <td><input type="password" name="password" id="password" required></td>
+    </tr>
+    <tr>
+      <td><label for="farm">Nama Area Pertanian:</label></td>
+      <td><input type="text" name="farm" id="farm" /></td>
+    </tr>
+  </table>
 
   {% if messages %} {% for message in messages %}
   <div class="alert alert-danger alert-dismissible fade show" role="alert">

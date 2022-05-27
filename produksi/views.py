@@ -90,12 +90,10 @@ def detail_produksi(request, pk):
 
     data['production'] = production_data
 
-    return render(request, 'produksi/detail_produksi.html', {'title': "Detail Produksi", 'data': data})
+    return render(request, 'produksi/detail_produksi.html', {'title': production_data['nama'], 'data': data})
 
 
 def buat_produksi(request):
-    next = request.GET.get("add")
-
     data = {}
     data['role'] = get_role(request.session['email'],
                             request.session['password'])
@@ -230,7 +228,7 @@ def update_produksi(request, pk):
     }
 
     if request.method != "POST":
-        return render(request, 'produksi/update_produksi.html', {'title': "Update Produksi", 'data': data})
+        return render(request, 'produksi/update_produksi.html', {'title': ("Update Produksi " + data['production']['makanan']), 'data': data})
 
     body = request.POST
     durasi = f"00:{body['durasi']}:00"
@@ -245,7 +243,7 @@ def update_produksi(request, pk):
     return redirect("/produksi/list-produksi")
 
 
-def delete_produksi(request):
+def delete_produksi(request, pk):
     if not is_authenticated(request):
         return redirect("/auth/login")
 
@@ -253,3 +251,27 @@ def delete_produksi(request):
     data['role'] = get_role(request.session['email'],
                             request.session['password'])
     data['user'] = get_session_data(request)
+
+    if data['role'] != 'admin':
+        return redirect("/produk/list-produk")
+
+    produk_makanan = pk.split("-")[0]
+    alat_produksi = pk.split("-")[1]
+
+    history_data = get_query(f'''
+        SELECT id_produk_makanan, id_alat_produksi
+        FROM histori_produksi_makanan
+        WHERE id_produk_makanan='{produk_makanan}' AND id_alat_produksi='{alat_produksi}';
+    ''')
+    # print(history_data)
+
+    if(len(history_data) != 0):
+        messages.error(request, 'Produksi tidak bisa dihapus')
+    else:
+        get_query(f'''
+            DELETE FROM produksi CASCADE
+            WHERE id_produk_makanan='{produk_makanan}' AND id_alat_produksi='{alat_produksi}';
+        ''')
+        messages.success(request, 'Produksi berhasil dihapus')
+
+    return redirect("/produksi/list-produksi")

@@ -2,10 +2,15 @@
 {% load static %}
 
 {% block styles %}
+<link rel="stylesheet" href="{% static 'css/auth/auth.css' %}">
+<link rel="stylesheet" href="{% static 'css/auth/index.css' %}">
 {% endblock styles %}
 
 {% block body %}
-<h1>Welcome</h1>
-<div class=""><a href="/auth/login">Login</a></div>
-<a href="/auth/register">Register</a>
+<h1>Welcome to Hi Day</h1>
+<div class="auth">
+  <button><a href="/auth/login">Login</a></button>
+  <button><a href="/auth/register">Register</a></button>
+</div>
+
 {% endblock body %}
