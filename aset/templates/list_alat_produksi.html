@@ -28,8 +28,12 @@
             <td style="border-collapse: collapse; border: 1px solid;">{{ object.kapasitas_max }}</td>
             {% if data.role == 'admin' %}
             <td style="border-collapse: collapse; border: 1px solid;">
-                <a href="">Update</a>
-                <a href="">Delete</a>
+                <a href="/aset/update/alat-produksi/{{object.id}}">Update</a>
+                
+                {% if object.deletable == 'TRUE' %}
+                <a href="/aset/delete-aset/{{object.id}}">Delete</a>
+                {% endif %}
+                
             </td>
             {% endif %}
         </tr>

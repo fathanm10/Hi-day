@@ -10,26 +10,26 @@
 <form method="post">
     <div>
         <label for="id">ID:</label>
-        <input type="id" name="id" id="id" placeholder="dXX" disabled>
+        <input type="id" name="id" id="id" value="{{id}}" disabled>
     </div>
     <div>
         <label for="nama">Nama:</label>
-        <input type="nama" name="nama" id="nama">
+        <input type="nama" name="nama" id="nama" required>
     </div>
     <div>
-        <label for="minimum_level">Minimum Level:</label>
-        <input type="minimum_level" name="minimum_level" id="minimum_level">
+        <label for="min_level">Minimum Level:</label>
+        <input type="min_level" name="min_level" id="min_level" required>
     </div>
     <div>
         <label for="harga_beli">Harga Beli:</label>
-        <input type="harga_beli" name="harga_beli" id="harga_beli">
+        <input type="harga_beli" name="harga_beli" id="harga_beli" required>
     </div>
 
 
     
     <div>
         <label for="harga_jual">Harga Jual:</label>
-        <input type="harga_jual" name="harga_jual" id="harga_jual">
+        <input type="harga_jual" name="harga_jual" id="harga_jual" required>
     </div>
     
     <button type="submit">Tambahkan</button>

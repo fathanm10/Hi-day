@@ -6,33 +6,34 @@
 
 
 {% block body %}
-<h1>Form Buat Aset {{ title }}</h1>
+<h1>Form Update Aset {{ title }}</h1>
+{% for object in data %}
 <form method="post">
     <div>
         <label for="id">ID:</label>
-        <input type="id" name="id" id="id" placeholder="btXX" disabled>
+        <input type="id" name="id" id="id" placeholder="{{object.id}}" value="{{object.id}}" disabled>
     </div>
     <div>
         <label for="nama">Nama:</label>
-        <input type="nama" name="nama" id="nama" placeholder="Nama" disabled>
+        <input type="nama" name="nama" id="nama" placeholder="{{object.nama}}" value="{{object.nama}}" disabled>
     </div>
     <div>
-        <label for="minimum_level">Minimum Level:</label>
-        <input type="minimum_level" name="minimum_level" id="minimum_level">
+        <label for="min_level">Minimum Level:</label>
+        <input type="min_level" name="min_level" id="min_level" placeholder="{{object.min_level}}" required>
     </div>
     <div>
         <label for="harga_beli">Harga Beli:</label>
-        <input type="harga_beli" name="harga_beli" id="harga_beli">
+        <input type="harga_beli" name="harga_beli" id="harga_beli" placeholder="{{object.harga_beli}}" required>
     </div>
 
 
     
     <div>
         <label for="durasi_panen">Durasi Panen:</label>
-        <input type="durasi_panen" name="durasi_panen" id="durasi_panen">
+        <input type="time" step="1" name="durasi_panen" id="durasi_panen" placeholder="{{object.durasi_panen}}">
     </div>
     
-    <button type="submit">Tambahkan</button>
+    <button type="submit">Simpan</button>
 
     {% if messages %}
         {% for message in messages %}
@@ -42,4 +43,5 @@
         {% endfor %}
     {% endif %}
 </form>
+{% endfor %}
 {% endblock body %}
