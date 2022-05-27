@@ -3,6 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from hi_day.auth import is_authenticated, get_session_data, get_role
 from hi_day.utils import get_query
+from django.core.exceptions import PermissionDenied
 
 def list_tipe_aset(request):
     if not is_authenticated(request):
@@ -676,3 +677,38 @@ def update_alat_produksi(request, id):
 def update_petak_sawah(request, id):
     print('do stuff')
 
+
+
+
+
+id_to_aset = {'ap': 'ALAT_PRODUKSI', 'bt': 'BIBIT_TANAMAN', 'd': 'DEKORASI', 'h': 'HEWAN', 'k': 'KANDANG', 'ps': 'PETAK_SAWAH'}
+
+@csrf_exempt
+def delete_aset(request, id):
+    if get_session_data(request)['role'] == 'user':
+        raise PermissionDenied()
+    
+    if get_session_data(request)['role'] == 'admin':
+        tipe_aset = ''
+        if ('ap' in id):
+            tipe_aset = id_to_aset['ap']
+        elif ('bt' in id):
+            tipe_aset = id_to_aset['bt']
+        elif ('d' in id):
+            tipe_aset = id_to_aset['d']
+        elif ('h' in id):
+            tipe_aset = id_to_aset['h']
+        elif ('k' in id):
+            tipe_aset = id_to_aset['k']
+        elif ('ps' in id):
+            tipe_aset = id_to_aset['ps']
+        else:
+            return redirect("/")
+
+        get_query(
+            f'''
+            DELETE FROM {tipe_aset} WHERE ID_ASET = '{id}';
+            DELETE FROM ASET WHERE ID = '{id}';
+            ''')
+
+        return redirect("/")
